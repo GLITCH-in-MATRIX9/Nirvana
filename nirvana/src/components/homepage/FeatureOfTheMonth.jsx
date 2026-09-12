@@ -697,64 +697,6 @@ export default function ThirdSection() {
 function FeatureButtons() {
   return (
     <div className="relative z-20 shrink-0">
-
-      {/* SEE ALL FEATURES */}
-
-      <a
-        href={
-          featureofthemonthData.actions
-            .seeAllFeatures.href
-        }
-        className="
-          group
-          flex
-          w-full
-          items-center
-          justify-between
-          border-t
-          border-[var(--color-border)]
-          bg-[var(--color-surface-soft)]
-          px-4
-          py-3
-          transition-all
-          duration-500
-          hover:bg-[var(--color-violet-soft)]
-          sm:px-5
-          sm:py-3.5
-        "
-      >
-
-        <span
-          className="
-            text-body
-            text-muted
-            transition-colors
-            duration-300
-            group-hover:text-primary
-          "
-        >
-          {
-            featureofthemonthData.actions
-              .seeAllFeatures.label
-          }
-        </span>
-
-        <ArrowUpRight
-          size={18}
-          strokeWidth={1.3}
-          className="
-            shrink-0
-            text-[var(--color-violet-muted)]
-            transition-all
-            duration-500
-            group-hover:translate-x-1
-            group-hover:-translate-y-1
-            group-hover:rotate-45
-          "
-        />
-
-      </a>
-
     </div>
   );
 }

@@ -230,7 +230,7 @@ export default function JoinCommunity() {
             </p>
 
             <a
-              href="#"
+              href="https://forms.gle/YMBMh331eNRdFCdz5"
               className="
                 group
                 flex
@@ -437,9 +437,9 @@ function WebsitePreview() {
       prev.map((section) =>
         section.id === id
           ? {
-              ...section,
-              [key]: value,
-            }
+            ...section,
+            [key]: value,
+          }
           : section
       )
     );
@@ -571,10 +571,9 @@ function WebsitePreview() {
                 uppercase
                 tracking-[0.1em]
                 transition-colors
-                ${
-                  view === "desktop"
-                    ? "bg-white text-black"
-                    : "text-white/30 hover:text-white"
+                ${view === "desktop"
+                  ? "bg-white text-black"
+                  : "text-white/30 hover:text-white"
                 }
               `}
             >
@@ -590,10 +589,9 @@ function WebsitePreview() {
                 uppercase
                 tracking-[0.1em]
                 transition-colors
-                ${
-                  view === "mobile"
-                    ? "bg-white text-black"
-                    : "text-white/30 hover:text-white"
+                ${view === "mobile"
+                  ? "bg-white text-black"
+                  : "text-white/30 hover:text-white"
                 }
               `}
             >
@@ -781,10 +779,9 @@ function WebsitePreview() {
                   className={`
                     items-center
                     gap-4
-                    ${
-                      view === "mobile"
-                        ? "hidden"
-                        : "flex"
+                    ${view === "mobile"
+                      ? "hidden"
+                      : "flex"
                     }
                   `}
                 >
@@ -1207,10 +1204,9 @@ function EditableSection({
           className={`
             grid
             min-h-[300px]
-            ${
-              view === "mobile"
-                ? "grid-cols-1"
-                : "grid-cols-[1.05fr_.95fr]"
+            ${view === "mobile"
+              ? "grid-cols-1"
+              : "grid-cols-[1.05fr_.95fr]"
             }
           `}
         >
@@ -1397,10 +1393,9 @@ function EditableSection({
             className={`
               grid
               gap-2
-              ${
-                view === "mobile"
-                  ? "grid-cols-1"
-                  : "grid-cols-3"
+              ${view === "mobile"
+                ? "grid-cols-1"
+                : "grid-cols-3"
               }
             `}
           >

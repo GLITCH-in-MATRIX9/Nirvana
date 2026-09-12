@@ -221,109 +221,15 @@ export default function RightHeroCard() {
             sm:leading-[1.55]
           "
         >
-          Explore, experiment and create something unexpected
-          with Nirvana.
+          Meet the team, discover Nirvana, and step into a new creative journey with us.
         </p>
 
 
-        {/* ==================================================
-            JOIN EVENT
-        ================================================== */}
-
-        <motion.a
-          href="https://chat.whatsapp.com/ImoVWQe1jslG5O72ubUnq2"
-          variants={{
-            rest: {
-              backgroundColor: "rgba(255,255,255,0.025)",
-            },
-
-            hover: {
-              backgroundColor:
-                "rgba(91,68,110,0.16)",
-            },
-          }}
-          transition={{
-            duration: 0.45,
-          }}
-          className="
-    mt-3
-    flex
-    flex-col
-    gap-1
-    text-[10px]
-    text-subtle
-
-    sm:mt-4
-    sm:text-body-sm
-  "
-        >
-
-          {/* ==================================================
-              CTA TEXT
-          ================================================== */}
-
-          <div>
-
-            <p className="text-micro text-subtle">
-              Registrations open
-            </p>
-
-            <p
-              className="
-                mt-0.5
-                text-[14px]
-                leading-tight
-                text-primary
-
-                sm:mt-1
-                sm:text-body-lg
-              "
-            >
-              Join the event
-            </p>
-
-          </div>
-
-
-          {/* ==================================================
-              ARROW
-          ================================================== */}
-
-          <motion.div
-            variants={{
-              rest: {
-                x: 0,
-                y: 0,
-                rotate: 0,
-              },
-
-              hover: {
-                x: 4,
-                y: -4,
-                rotate: 45,
-              },
-            }}
-            transition={{
-              duration: 0.4,
-              ease: [0.16, 1, 0.3, 1],
-            }}
-            className="
-              flex
-              shrink-0
-              items-center
-              justify-center
-              text-[var(--color-violet-muted)]
-            "
-          >
-
-            <ArrowUpRight
-              size={17}
-              strokeWidth={1.2}
-            />
-
-          </motion.div>
-
-        </motion.a>
+        <div className="mt-4 space-y-1 text-[10px] text-muted sm:text-body-sm">
+          <p>16 September 2026</p>
+          <p>1–3 PM</p>
+          <p>Seminar Hall</p>
+        </div>
 
       </div>
 
