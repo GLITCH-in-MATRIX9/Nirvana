@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 
 export default function ContactPage() {
     const [formData, setFormData] = useState({
@@ -24,53 +23,11 @@ export default function ContactPage() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         console.log("Contact form submitted:", formData);
     };
 
     return (
         <main className="min-h-screen w-full bg-black text-white">
-
-            {/* =====================================================
-                NAVBAR
-            ===================================================== */}
-
-            <nav className="absolute left-0 top-0 z-50 flex w-full items-center justify-between px-8 py-7 md:px-12 lg:px-16">
-                <Link
-                    href="/"
-                    className="text-xl font-semibold tracking-[-0.05em]"
-                >
-                    NIRVANA
-                </Link>
-
-                <div className="hidden items-center gap-12 text-[12px] uppercase tracking-[0.16em] text-white/45 md:flex">
-                    <Link
-                        href="/events"
-                        className="transition-colors duration-300 hover:text-white"
-                    >
-                        Events
-                    </Link>
-
-                    <Link
-                        href="/about"
-                        className="transition-colors duration-300 hover:text-white"
-                    >
-                        About
-                    </Link>
-
-                    <Link
-                        href="/contact"
-                        className="text-white"
-                    >
-                        Contact
-                    </Link>
-                </div>
-
-                <div className="flex items-center gap-2.5 text-[11px] uppercase tracking-[0.16em] text-white/45">
-                    <span className="h-2 w-2 rounded-full bg-violet-400" />
-                    Let's connect
-                </div>
-            </nav>
 
             {/* =====================================================
                 FULL WIDTH CONTACT SECTION
@@ -90,38 +47,41 @@ export default function ContactPage() {
                         flex-col
                         justify-between
                         overflow-hidden
-                        px-8
+                        px-6
                         pb-12
-                        pt-36
+                        pt-20
+                        sm:px-10
+                        sm:pb-16
+                        sm:pt-24
                         md:px-12
                         lg:px-16
                         lg:pb-16
-                        lg:pt-40
+                        lg:pt-36
                     "
                     style={{
                         background: `
                             radial-gradient(
-                                circle at 72% 65%,
-                                rgba(105, 48, 145, 0.38) 0%,
-                                rgba(65, 27, 91, 0.20) 25%,
-                                rgba(15, 8, 20, 0.82) 55%,
+                                circle at 70% 45%,
+                                rgba(125, 55, 175, 0.45) 0%,
+                                rgba(75, 28, 105, 0.28) 35%,
+                                rgba(18, 9, 25, 0.88) 65%,
                                 #030303 100%
                             )
                         `,
                     }}
                 >
-                    {/* Subtle atmospheric glow */}
+                    {/* Atmospheric purple glow elements */}
 
-                    <div className="pointer-events-none absolute -right-40 bottom-[-10%] h-[600px] w-[600px] rounded-full bg-purple-700/[0.07] blur-[150px]" />
+                    <div className="pointer-events-none absolute -right-32 top-[10%] h-[550px] w-[550px] rounded-full bg-purple-600/[0.12] blur-[140px]" />
 
-                    <div className="pointer-events-none absolute left-[20%] top-[35%] h-[350px] w-[350px] rounded-full bg-violet-500/[0.035] blur-[130px]" />
+                    <div className="pointer-events-none absolute left-[-10%] bottom-[10%] h-[400px] w-[400px] rounded-full bg-violet-600/[0.08] blur-[140px]" />
 
                     {/* =================================================
                         TOP CONTENT
                     ================================================= */}
 
                     <div className="relative z-10">
-                        <div className="mb-5 flex items-center gap-3">
+                        <div className="mb-4 flex items-center gap-3">
                             <span className="h-2 w-2 rounded-full bg-violet-300" />
 
                             <p className="text-[11px] uppercase tracking-[0.2em] text-white/40">
@@ -129,7 +89,7 @@ export default function ContactPage() {
                             </p>
                         </div>
 
-                        <p className="max-w-[380px] text-[14px] leading-6 text-white/40">
+                        <p className="max-w-[380px] text-[13px] leading-6 text-white/40 sm:text-[14px]">
                             Have an idea, collaboration or something
                             exciting in mind?
                         </p>
@@ -139,22 +99,23 @@ export default function ContactPage() {
                         MAIN HEADING
                     ================================================= */}
 
-                    <div className="relative z-10 my-auto py-24">
-                        <p className="mb-7 text-[11px] uppercase tracking-[0.22em] text-violet-300/60">
-                            Let's create something
+                    <div className="relative z-10 my-auto py-16 sm:py-20 lg:py-24">
+                        <p className="mb-6 text-[11px] uppercase tracking-[0.22em] text-violet-300/60 sm:mb-8">
+                            Let&apos;s create something
                         </p>
 
                         <h1
                             className="
-                                text-[clamp(5rem,10vw,10rem)]
+                                text-[clamp(3.5rem,14vw,8rem)]
                                 font-black
                                 uppercase
-                                leading-[0.76]
-                                tracking-[-0.08em]
+                                leading-[0.78]
+                                tracking-[-0.07em]
                                 text-white
+                                lg:text-[clamp(5rem,10vw,10rem)]
                             "
                         >
-                            Let's
+                            Let&apos;s
                             <br />
                             Talk.
                         </h1>
@@ -165,25 +126,25 @@ export default function ContactPage() {
                     ================================================= */}
 
                     <div className="relative z-10">
-                        <div className="mb-10 h-px w-full bg-white/[0.1]" />
+                        <div className="mb-8 h-px w-full bg-white/[0.1] lg:mb-10" />
 
-                        <div className="grid grid-cols-2 gap-10">
+                        <div className="grid grid-cols-2 gap-6 sm:gap-10">
                             <div>
-                                <p className="mb-3 text-[10px] uppercase tracking-[0.18em] text-white/25">
+                                <p className="mb-2 text-[10px] uppercase tracking-[0.18em] text-white/25 sm:mb-3">
                                     Email
                                 </p>
 
-                                <p className="text-[14px] text-white/60">
+                                <p className="text-[13px] text-white/60 sm:text-[14px]">
                                     nirvana@igdtuw.ac.in
                                 </p>
                             </div>
 
                             <div>
-                                <p className="mb-3 text-[10px] uppercase tracking-[0.18em] text-white/25">
+                                <p className="mb-2 text-[10px] uppercase tracking-[0.18em] text-white/25 sm:mb-3">
                                     Location
                                 </p>
 
-                                <p className="text-[14px] text-white/60">
+                                <p className="text-[13px] text-white/60 sm:text-[14px]">
                                     New Delhi, India
                                 </p>
                             </div>
@@ -195,27 +156,27 @@ export default function ContactPage() {
                     RIGHT — CONTACT FORM
                 ================================================= */}
 
-                <div className="flex min-h-screen items-center bg-[#030303] px-8 pb-16 pt-36 md:px-12 lg:px-20 xl:px-24">
+                <div className="flex min-h-0 items-center bg-[#030303] px-6 pb-16 pt-12 sm:px-10 md:px-12 lg:min-h-screen lg:px-20 lg:pt-28 xl:px-24">
                     <div className="w-full max-w-[620px]">
 
                         {/* =================================================
                             FORM INTRO
                         ================================================= */}
 
-                        <div className="mb-14">
-                            <p className="mb-5 text-[11px] uppercase tracking-[0.22em] text-violet-400">
+                        <div className="mb-10 lg:mb-14">
+                            <p className="mb-4 text-[11px] uppercase tracking-[0.22em] text-violet-400 sm:mb-5">
                                 Get in touch
                             </p>
 
-                            <h2 className="text-[clamp(2.2rem,4vw,4rem)] font-medium leading-[0.92] tracking-[-0.055em]">
-                                Tell us what's
+                            <h2 className="text-[clamp(2rem,6vw,4rem)] font-medium leading-[0.92] tracking-[-0.055em]">
+                                Tell us what&apos;s
                                 <br />
                                 on your mind.
                             </h2>
 
-                            <p className="mt-6 max-w-[470px] text-[14px] leading-6 text-white/35">
-                                Whether it's a collaboration, an idea,
-                                an event or just a hello — we'd love
+                            <p className="mt-4 max-w-[470px] text-[13px] leading-6 text-white/35 sm:mt-6 sm:text-[14px]">
+                                Whether it&apos;s a collaboration, an idea,
+                                an event or just a hello — we&apos;d love
                                 to hear from you.
                             </p>
                         </div>
@@ -226,17 +187,17 @@ export default function ContactPage() {
 
                         <form
                             onSubmit={handleSubmit}
-                            className="space-y-8"
+                            className="space-y-6 sm:space-y-8"
                         >
 
                             {/* NAME + EMAIL */}
 
-                            <div className="grid grid-cols-1 gap-7 sm:grid-cols-2">
+                            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-7">
 
                                 <div>
                                     <label
                                         htmlFor="name"
-                                        className="mb-3 block text-[10px] uppercase tracking-[0.18em] text-white/40"
+                                        className="mb-2.5 block text-[10px] uppercase tracking-[0.18em] text-white/40 sm:mb-3"
                                     >
                                         Name
                                     </label>
@@ -250,13 +211,13 @@ export default function ContactPage() {
                                         placeholder="Your name"
                                         required
                                         className="
-                                            h-14
+                                            h-12
                                             w-full
                                             rounded-[5px]
                                             border
                                             border-white/[0.1]
                                             bg-white/[0.035]
-                                            px-5
+                                            px-4
                                             text-[14px]
                                             text-white
                                             outline-none
@@ -265,6 +226,8 @@ export default function ContactPage() {
                                             duration-300
                                             focus:border-violet-400/50
                                             focus:bg-white/[0.05]
+                                            sm:h-14
+                                            sm:px-5
                                         "
                                     />
                                 </div>
@@ -272,7 +235,7 @@ export default function ContactPage() {
                                 <div>
                                     <label
                                         htmlFor="email"
-                                        className="mb-3 block text-[10px] uppercase tracking-[0.18em] text-white/40"
+                                        className="mb-2.5 block text-[10px] uppercase tracking-[0.18em] text-white/40 sm:mb-3"
                                     >
                                         Email
                                     </label>
@@ -286,13 +249,13 @@ export default function ContactPage() {
                                         placeholder="you@example.com"
                                         required
                                         className="
-                                            h-14
+                                            h-12
                                             w-full
                                             rounded-[5px]
                                             border
                                             border-white/[0.1]
                                             bg-white/[0.035]
-                                            px-5
+                                            px-4
                                             text-[14px]
                                             text-white
                                             outline-none
@@ -301,6 +264,8 @@ export default function ContactPage() {
                                             duration-300
                                             focus:border-violet-400/50
                                             focus:bg-white/[0.05]
+                                            sm:h-14
+                                            sm:px-5
                                         "
                                     />
                                 </div>
@@ -312,7 +277,7 @@ export default function ContactPage() {
                             <div>
                                 <label
                                     htmlFor="subject"
-                                    className="mb-3 block text-[10px] uppercase tracking-[0.18em] text-white/40"
+                                    className="mb-2.5 block text-[10px] uppercase tracking-[0.18em] text-white/40 sm:mb-3"
                                 >
                                     Subject
                                 </label>
@@ -326,13 +291,13 @@ export default function ContactPage() {
                                     placeholder="What would you like to talk about?"
                                     required
                                     className="
-                                        h-14
+                                        h-12
                                         w-full
                                         rounded-[5px]
                                         border
                                         border-white/[0.1]
                                         bg-white/[0.035]
-                                        px-5
+                                        px-4
                                         text-[14px]
                                         text-white
                                         outline-none
@@ -341,6 +306,8 @@ export default function ContactPage() {
                                         duration-300
                                         focus:border-violet-400/50
                                         focus:bg-white/[0.05]
+                                        sm:h-14
+                                        sm:px-5
                                     "
                                 />
                             </div>
@@ -350,7 +317,7 @@ export default function ContactPage() {
                             <div>
                                 <label
                                     htmlFor="message"
-                                    className="mb-3 block text-[10px] uppercase tracking-[0.18em] text-white/40"
+                                    className="mb-2.5 block text-[10px] uppercase tracking-[0.18em] text-white/40 sm:mb-3"
                                 >
                                     Message
                                 </label>
@@ -364,15 +331,15 @@ export default function ContactPage() {
                                     required
                                     rows={6}
                                     className="
-                                        min-h-[170px]
+                                        min-h-[150px]
                                         w-full
                                         resize-none
                                         rounded-[5px]
                                         border
                                         border-white/[0.1]
                                         bg-white/[0.035]
-                                        px-5
-                                        py-4
+                                        px-4
+                                        py-3.5
                                         text-[14px]
                                         leading-6
                                         text-white
@@ -382,6 +349,9 @@ export default function ContactPage() {
                                         duration-300
                                         focus:border-violet-400/50
                                         focus:bg-white/[0.05]
+                                        sm:min-h-[170px]
+                                        sm:px-5
+                                        sm:py-4
                                     "
                                 />
                             </div>
@@ -393,8 +363,9 @@ export default function ContactPage() {
                                 className="
                                     group
                                     flex
-                                    h-14
+                                    h-12
                                     w-full
+                                    cursor-pointer
                                     items-center
                                     justify-center
                                     gap-4
@@ -408,6 +379,7 @@ export default function ContactPage() {
                                     transition-all
                                     duration-300
                                     hover:bg-violet-300
+                                    sm:h-14
                                 "
                             >
                                 <span>Send Message</span>
@@ -423,7 +395,7 @@ export default function ContactPage() {
                             FOOTER NOTE
                         ================================================= */}
 
-                        <div className="mt-10 flex items-center justify-between">
+                        <div className="mt-8 flex items-center justify-between sm:mt-10">
                             <p className="text-[10px] text-white/20">
                                 We usually respond within 24–48 hours.
                             </p>
