@@ -19,14 +19,9 @@ const menu = [
     href: "/about",
     number: "01",
   },
-  // {
-  //   name: "EVENTS",
-  //   href: "/events",
-  //   number: "02",
-  // },
   {
-    name: "GALLERY",
-    href: "/gallery",
+    name: "EVENTS",
+    href: "/events",
     number: "02",
   },
   {
@@ -41,6 +36,14 @@ const menu = [
   },
 ];
 
+/* Stepped margins for desktop staggered editorial effect */
+const desktopMargins = [
+  "md:ml-0",
+  "md:ml-8",
+  "md:ml-16",
+  "md:ml-24",
+  "md:ml-32",
+];
 
 /* ============================================================
    SOCIAL LINKS
@@ -60,40 +63,35 @@ const socialLinks = [
 const WHATSAPP_LINK =
   "https://chat.whatsapp.com/ImoVWQe1jslG5O72ubUnq2";
 
-
 /* ============================================================
    ANIMATION
 ============================================================ */
 
 const container = {
   hidden: {},
-
   show: {
     transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.05,
+      staggerChildren: 0.06,
+      delayChildren: 0.04,
     },
   },
 };
 
-const item = {
+const itemVariants = {
   hidden: {
-    x: 500,
+    x: 35,
     opacity: 0,
   },
-
   show: {
     x: 0,
     opacity: 1,
-
     transition: {
       type: "spring",
-      stiffness: 110,
+      stiffness: 120,
       damping: 18,
     },
   },
 };
-
 
 /* ============================================================
    MENU OVERLAY
@@ -119,102 +117,96 @@ export default function MenuOverlay({ onClose }) {
         fixed
         inset-0
         z-40
-        overflow-hidden
+        overflow-y-auto
         bg-[var(--color-black)]
         text-primary
+        md:overflow-hidden
       "
     >
-
       {/* ====================================================
-          NOISE
+          BACKGROUND NOISE & VIOLET ATMOSPHERE
       ==================================================== */}
-
       <div className="noise z-0 opacity-[0.06]" />
-
-
-      {/* ====================================================
-          DARK VIOLET ATMOSPHERE
-      ==================================================== */}
 
       <div
         className="
           violet-glow-soft
           pointer-events-none
           absolute
-          right-[8%]
-          top-[18%]
-          h-[350px]
-          w-[350px]
+          right-[5%]
+          top-[10%]
+          h-[320px]
+          w-[320px]
           rounded-full
-          opacity-60
-
+          opacity-50
           md:h-[500px]
           md:w-[500px]
           md:opacity-80
         "
       />
 
+      {/* ====================================================
+          MOBILE TOP BAR (LOGO + CLEARANCE FOR CLOSE BUTTON)
+      ==================================================== */}
+      <div className="flex items-center justify-between px-5 pt-5 sm:px-6 sm:pt-6 md:hidden">
+        <Link href="/" onClick={onClose} className="font-display text-xl tracking-[0.16em] text-white">
+          NIRVANA
+        </Link>
+      </div>
 
       {/* ====================================================
-          MAIN LAYOUT
+          MAIN LAYOUT CONTAINER
       ==================================================== */}
-
       <div
         className="
           relative
           z-10
           flex
-          h-full
+          min-h-[calc(100%-60px)]
           w-full
           flex-col
-
+          justify-between
+          md:min-h-full
+          md:h-full
           md:flex-row
         "
       >
-
         {/* ==================================================
-            LEFT SIDE — MENU
+            LEFT SIDE — NAVIGATION LINKS
         ================================================== */}
-
         <motion.div
           variants={container}
           initial="hidden"
           animate="show"
           className="
             flex
-            h-[60%]
             w-full
             flex-col
-
+            px-6
+            py-4
+            sm:px-8
             md:h-full
-            md:w-[70%]
+            md:w-[62%]
             md:border-r
             md:border-[var(--color-border)]
+            md:p-0
+            lg:w-[65%]
           "
         >
-
           {menu.map((menuItem, index) => (
             <motion.div
               key={menuItem.name}
-              variants={item}
-              className="
+              variants={itemVariants}
+              className={`
                 relative
-                flex-1
                 border-b
                 border-[var(--color-border)]
-
-                md:h-1/6
-                md:flex-none
-              "
-              style={{
-                marginLeft:
-                  typeof window !== "undefined" &&
-                  window.innerWidth >= 768
-                    ? `${index * 40}px`
-                    : "0px",
-              }}
+                last:border-b-0
+                md:flex-1
+                md:last:border-b
+                ${desktopMargins[index] || ""}
+              `}
             >
-
               <Link
                 href={menuItem.href}
                 onClick={onClose}
@@ -222,22 +214,19 @@ export default function MenuOverlay({ onClose }) {
                   group
                   relative
                   flex
-                  h-full
                   w-full
                   items-center
                   overflow-hidden
-                  px-5
-
-                  sm:px-7
-
-                  md:px-20
+                  py-4
+                  sm:py-5
+                  md:h-full
+                  md:py-0
+                  md:px-10
+                  lg:px-14
+                  xl:px-20
                 "
               >
-
-                {/* ==================================================
-                    HOVER BACKGROUND
-                ================================================== */}
-
+                {/* Hover background highlight */}
                 <div
                   className="
                     absolute
@@ -246,17 +235,13 @@ export default function MenuOverlay({ onClose }) {
                     scale-x-0
                     bg-[var(--color-violet-soft)]
                     transition-transform
-                    duration-700
+                    duration-500
                     ease-[cubic-bezier(0.16,1,0.3,1)]
                     group-hover:scale-x-100
                   "
                 />
 
-
-                {/* ==================================================
-                    NUMBER
-                ================================================== */}
-
+                {/* Number */}
                 <span
                   className="
                     relative
@@ -265,125 +250,105 @@ export default function MenuOverlay({ onClose }) {
                     text-micro
                     text-subtle
                     transition-colors
-                    duration-500
+                    duration-300
                     group-hover:text-[var(--color-violet-muted)]
-
-                    sm:mr-5
-
+                    sm:mr-6
                     md:mr-8
                   "
                 >
                   {menuItem.number}
                 </span>
 
-
-                {/* ==================================================
-                    MENU TEXT
-                ================================================== */}
-
-                <motion.h2
+                {/* Link Title */}
+                <h2
                   className="
                     relative
                     z-10
-                    text-[clamp(1.8rem,8vw,3.5rem)]
-                    leading-[0.85]
-                    tracking-[-0.04em]
+                    font-display
+                    text-[1.75rem]
+                    font-medium
+                    leading-none
+                    tracking-[-0.03em]
                     text-primary
                     transition-transform
-                    duration-500
+                    duration-300
                     group-hover:translate-x-2
-
-                    md:text-h2
+                    sm:text-3xl
+                    md:text-4xl
+                    lg:text-5xl
+                    xl:text-6xl
                   "
                 >
                   {menuItem.name}
-                </motion.h2>
+                </h2>
 
-
-                {/* ==================================================
-                    ARROW
-                ================================================== */}
-
+                {/* Arrow */}
                 <span
                   className="
                     relative
                     z-10
                     ml-auto
                     translate-x-2
-                    text-xl
+                    text-lg
                     text-[var(--color-violet-muted)]
                     opacity-0
                     transition-all
-                    duration-500
+                    duration-300
                     group-hover:translate-x-0
                     group-hover:opacity-100
-
-                    sm:text-2xl
+                    sm:text-xl
+                    md:text-2xl
                   "
                 >
                   ↗
                 </span>
-
               </Link>
-
             </motion.div>
           ))}
-
         </motion.div>
 
-
         {/* ==================================================
-            RIGHT SIDE
+            RIGHT SIDE / BOTTOM CONTENT
         ================================================== */}
-
         <motion.div
           initial={{
-            x: 80,
             opacity: 0,
+            x: 30,
           }}
           animate={{
-            x: 0,
             opacity: 1,
+            x: 0,
           }}
           transition={{
-            delay: 0.4,
-            duration: 0.7,
+            delay: 0.2,
+            duration: 0.6,
             ease: [0.22, 1, 0.36, 1],
           }}
           className="
             flex
-            h-[40%]
             w-full
             flex-col
             justify-between
-            px-5
-            py-5
-
-            sm:px-7
-            sm:py-6
-
+            border-t
+            border-[var(--color-border)]
+            p-6
+            sm:p-8
             md:h-full
-            md:w-[30%]
-            md:px-10
-            md:py-14
+            md:w-[38%]
+            md:border-t-0
+            md:overflow-y-auto
+            md:p-8
+            lg:w-[35%]
+            lg:p-12
           "
         >
-
-          {/* ==================================================
-              TOP
-          ================================================== */}
-
-          <div>
-
-            {/* LOGO */}
-
-            <Link
-              href="/"
-              onClick={onClose}
-            >
+          {/* Top section with artwork & CTA */}
+          <div className="flex flex-col">
+            {/* Desktop Brand Title */}
+            <Link href="/" onClick={onClose} className="hidden md:block">
               <h1
                 className="
-                  mb-4
+                  mb-6
                   font-display
                   text-2xl
                   tracking-[0.18em]
@@ -391,60 +356,47 @@ export default function MenuOverlay({ onClose }) {
                   transition-colors
                   duration-300
                   hover:text-[var(--color-violet-muted)]
-
-                  sm:mb-6
-                  sm:text-3xl
-
-                  md:mb-8
-                  md:text-5xl
+                  lg:mb-8
+                  lg:text-4xl
                 "
               >
                 NIRVANA
               </h1>
             </Link>
 
-
-            {/* ==================================================
-                IMAGE
-            ================================================== */}
-
-            <Link
-              href="/"
-              onClick={onClose}
-            >
+            {/* Showcase Artwork (both mobile & desktop) */}
+            <Link href="/" onClick={onClose}>
               <div
                 className="
                   group
                   relative
                   mb-4
-                  h-[120px]
+                  h-[140px]
                   w-full
                   overflow-hidden
                   border
                   border-[var(--color-border)]
                   bg-[var(--color-surface)]
-
-                  sm:h-[150px]
-                  sm:mb-5
-
-                  md:mb-10
-                  md:h-72
+                  sm:h-[160px]
+                  md:mb-6
+                  md:h-auto
+                  md:aspect-[4/3]
+                  md:max-h-[220px]
+                  lg:max-h-[250px]
                 "
               >
-
                 <Image
                   src="/images/hero/navbar.png"
-                  alt="Nirvana"
+                  alt="Nirvana Design Society"
                   fill
-                  sizes="(max-width: 767px) 100vw, 30vw"
+                  sizes="(max-width: 768px) 90vw, 30vw"
                   className="
                     object-cover
                     transition-transform
                     duration-700
-                    group-hover:scale-[1.03]
+                    group-hover:scale-[1.04]
                   "
                 />
-
                 <div
                   className="
                     absolute
@@ -453,18 +405,13 @@ export default function MenuOverlay({ onClose }) {
                     opacity-0
                     transition-opacity
                     duration-500
-                    group-hover:opacity-[0.12]
+                    group-hover:opacity-[0.14]
                   "
                 />
-
               </div>
             </Link>
 
-
-            {/* ==================================================
-                JOIN COMMUNITY
-            ================================================== */}
-
+            {/* Join Community CTA Button */}
             <a
               href={WHATSAPP_LINK}
               target="_blank"
@@ -472,78 +419,46 @@ export default function MenuOverlay({ onClose }) {
               onClick={onClose}
               className="
                 group
-                inline-flex
+                flex
+                w-full
                 items-center
-                gap-3
+                justify-between
                 border
                 border-[var(--color-border-strong)]
                 bg-[var(--color-surface)]
-                px-4
-                py-3
+                px-5
+                py-3.5
                 text-micro
                 text-primary
                 transition-all
-                duration-500
+                duration-400
                 hover:border-[var(--color-violet-muted)]
                 hover:bg-[var(--color-violet-soft)]
-
-                sm:px-5
-                sm:py-3.5
-
-                md:gap-4
-                md:px-6
-                md:py-4
               "
             >
-
-              Join Community
-
+              <span>Join Community</span>
               <span
                 className="
                   text-base
                   text-[var(--color-violet-muted)]
                   transition-transform
-                  duration-500
+                  duration-300
                   group-hover:translate-x-1
                   group-hover:-translate-y-1
-
-                  md:text-lg
                 "
               >
                 ↗
               </span>
-
             </a>
-
           </div>
 
-
-          {/* ==================================================
-              SOCIALS
-          ================================================== */}
-
-          <div
-            className="
-              mt-5
-              md:mt-0
-            "
-          >
-
-            <p
-              className="
-                text-micro
-                mb-3
-                text-subtle
-
-                md:mb-5
-              "
-            >
+          {/* Bottom section (Socials & Tagline) */}
+          <div className="mt-6 border-t border-[var(--color-border)] pt-4 md:pt-6">
+            <p className="text-micro mb-3 text-subtle">
               Connect
             </p>
 
-
             <div className="flex flex-col">
-
               {socialLinks.map((social) => (
                 <a
                   key={social.name}
@@ -558,23 +473,16 @@ export default function MenuOverlay({ onClose }) {
                     justify-between
                     border-b
                     border-[var(--color-border)]
-                    py-2
+                    py-2.5
                     text-body-sm
                     text-muted
                     transition-colors
                     duration-300
                     first:border-t
                     hover:text-primary
-
-                    md:py-3
                   "
                 >
-
-                  <span>
-                    {social.name}
-                  </span>
-
-
+                  <span>{social.name}</span>
                   <span
                     className="
                       translate-x-2
@@ -589,35 +497,16 @@ export default function MenuOverlay({ onClose }) {
                   >
                     ↗
                   </span>
-
                 </a>
               ))}
-
             </div>
 
-
-            {/* ==================================================
-                TAGLINE
-            ================================================== */}
-
-            <p
-              className="
-                text-micro
-                mt-4
-                text-subtle
-
-                md:mt-8
-              "
-            >
+            <p className="text-micro mt-4 text-subtle md:mt-6">
               Create / Explore / Evolve
             </p>
-
           </div>
-
         </motion.div>
-
       </div>
-
     </motion.div>
   );
 }
