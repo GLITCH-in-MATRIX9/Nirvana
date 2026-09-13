@@ -6,9 +6,9 @@ const teamGrid = {
     */
 
     topLeft: [
-        "/events/team/topleft-1.png",
-        "/events/team/topleft-2.png",
-        "/events/team/topleft-3.png",
+        "/images/team/topleft-1.png",
+        "/images/team/topleft-2.png",
+        "/images/team/topleft-3.png",
     ],
 
     /*
@@ -17,7 +17,7 @@ const teamGrid = {
     ============================================================
     */
 
-    topCenter: "/events/team/top-center.png",
+    topCenter: "/images/team/top-center.png",
 
     /*
     ============================================================
@@ -26,9 +26,9 @@ const teamGrid = {
     */
 
     topRight: [
-        "/events/team/topright-1.png",
-        "/events/team/topright-2.png",
-        "/events/team/topright-3.png",
+        "/images/team/topright-1.png",
+        "/images/team/topright-2.png",
+        "/images/team/topright-3.png",
     ],
 
     /*
@@ -37,7 +37,7 @@ const teamGrid = {
     ============================================================
     */
 
-    middleLeft: "/events/team/middle-left.png",
+    middleLeft: "/images/team/middle-left.png",
 
     /*
     ============================================================
@@ -45,7 +45,7 @@ const teamGrid = {
     ============================================================
     */
 
-    center: "/events/team/center.png",
+    center: "/images/team/center.png",
 
     /*
     ============================================================
@@ -53,7 +53,7 @@ const teamGrid = {
     ============================================================
     */
 
-    middleRight: "/events/team/middle-right.png",
+    middleRight: "/images/team/middle-right.png",
 
     /*
     ============================================================
@@ -62,9 +62,9 @@ const teamGrid = {
     */
 
     bottomLeft: [
-        "/events/team/bottomleft-1.png",
-        "/events/team/bottomleft-2.png",
-        "/events/team/bottomleft-3.png",
+        "/images/team/bottomleft-1.png",
+        "/images/team/bottomleft-2.png",
+        "/images/team/bottomleft-3.png",
     ],
 
     /*
@@ -73,7 +73,7 @@ const teamGrid = {
     ============================================================
     */
 
-    bottomCenter: "/events/team/bottom-center.png",
+    bottomCenter: "/images/team/bottom-center.png",
 
     /*
     ============================================================
@@ -82,9 +82,9 @@ const teamGrid = {
     */
 
     bottomRight: [
-        "/events/team/bottomright-1.png",
-        "/events/team/bottomright-2.png",
-        "/events/team/bottomright-3.png",
+        "/images/team/bottomright-1.png",
+        "/images/team/bottomright-2.png",
+        "/images/team/bottomright-3.png",
     ],
 };
 
