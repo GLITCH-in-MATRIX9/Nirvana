@@ -20,8 +20,8 @@ export default function Navbar() {
           right-0
           top-0
           z-[100]
-          p-3
-          sm:p-5
+          p-5
+          sm:p-6
           md:p-8
         "
       >
@@ -52,17 +52,25 @@ export default function Navbar() {
 
           className="
             flex
-            h-9
-            w-9
+            h-10
+            w-10
+            cursor-pointer
             items-center
             justify-center
-            text-primary
-            transition-colors
+            rounded-[6px]
+            border
+            border-white/15
+            bg-black/50
+            backdrop-blur-md
+            text-white
+            shadow-lg
+            transition-all
             duration-300
-            hover:text-[var(--color-violet-muted)]
+            hover:border-white/30
+            hover:bg-black/70
 
-            sm:h-10
-            sm:w-10
+            sm:h-11
+            sm:w-11
 
             md:h-12
             md:w-12

@@ -4,104 +4,7 @@ import { motion } from "framer-motion";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-black text-white">
-      {/* ============================================================
-          NAVBAR
-      ============================================================ */}
-
-      <motion.nav
-        initial={{ opacity: 0, y: -15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{
-          duration: 0.7,
-          ease: [0.16, 1, 0.3, 1],
-        }}
-        className="
-          relative
-          z-30
-          flex
-          w-full
-          items-center
-          justify-between
-          px-5
-          py-5
-          sm:px-8
-          sm:py-6
-          lg:px-12
-          lg:py-7
-        "
-      >
-        {/* Logo */}
-
-        <div className="flex flex-col leading-[0.75]">
-          <span
-            className="
-              text-[15px]
-              font-black
-              tracking-[-0.07em]
-              sm:text-lg
-            "
-          >
-            NIR
-          </span>
-
-          <span
-            className="
-              text-[15px]
-              font-black
-              tracking-[-0.07em]
-              sm:text-lg
-            "
-          >
-            VANA
-          </span>
-        </div>
-
-        {/* Center navigation */}
-
-        <div
-          className="
-            hidden
-            items-center
-            gap-8
-            text-[10px]
-            uppercase
-            tracking-[0.16em]
-            text-white/50
-            md:flex
-          "
-        >
-          <span className="text-white">
-            Events
-          </span>
-
-          <span>About</span>
-
-          <span>Archive</span>
-        </div>
-
-        {/* Right side */}
-
-        <div
-          className="
-            flex
-            items-center
-            gap-4
-            text-[9px]
-            uppercase
-            tracking-[0.12em]
-            text-white/60
-            sm:gap-6
-          "
-        >
-          <span className="hidden sm:block">
-            Nirvana Design Society
-          </span>
-
-          <span className="h-1.5 w-1.5 rounded-full bg-[#c96c32]" />
-        </div>
-      </motion.nav>
-
+    <section className="relative min-h-screen w-full overflow-hidden bg-black pt-16 sm:pt-20 lg:pt-24 text-white">
       {/* ============================================================
           HERO CONTENT
       ============================================================ */}
@@ -163,7 +66,7 @@ export default function Hero() {
             z-20
             mt-2
             text-center
-            text-[3.4rem]
+            text-[clamp(3.4rem,14vw,7rem)]
             font-black
             uppercase
             leading-[0.8]
@@ -183,9 +86,9 @@ export default function Hero() {
         <div
           className="
             relative
-            mt-10
+            mt-8
             w-full
-            sm:mt-12
+            sm:mt-10
             lg:mt-14
           "
         >
@@ -221,7 +124,7 @@ export default function Hero() {
           >
             <img
               src="https://picsum.photos/seed/nirvana-event-guide/2000/1200"
-              alt=""
+              alt="Nirvana Event Guide"
               className="
                 absolute
                 inset-0
@@ -290,7 +193,7 @@ export default function Hero() {
               }}
               className="
                 whitespace-nowrap
-                text-[19vw]
+                text-[18vw]
                 font-black
                 uppercase
                 leading-[0.75]
@@ -322,7 +225,7 @@ export default function Hero() {
               }}
               className="
                 whitespace-nowrap
-                text-[19vw]
+                text-[18vw]
                 font-black
                 uppercase
                 leading-[0.75]
@@ -420,7 +323,7 @@ export default function Hero() {
           >
             <p
               className="
-                max-w-[220px]
+                max-w-[200px]
                 text-[9px]
                 leading-4
                 text-white/70
