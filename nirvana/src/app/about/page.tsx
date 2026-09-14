@@ -1,15 +1,5 @@
-import Hero from "@/components/aboutpage/Hero";
-import OurPhilosophy from "@/components/aboutpage/OurPhilosophy";
-import WhatWeDo from "@/components/aboutpage/WhatWeDo";
-import OurWork from "@/components/aboutpage/OurWork";
+import About from "@/components/aboutpage/about";
 
 export default function AboutPage() {
-  return (
-    <main>
-      <Hero />
-     <OurPhilosophy />
-     <WhatWeDo />
-      <OurWork />
-    </main>
-  );
+  return <About />;
 }

@@ -65,6 +65,7 @@ export default function Footer() {
 
   return (
     <footer
+      id="site-footer"
       ref={footerRef}
       className="
         section
