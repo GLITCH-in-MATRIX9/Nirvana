@@ -6,17 +6,16 @@ export const featureofthemonthData = {
     organization: "NIRVANA",
     college: "IGDTUW",
   },
-
   featuredImage: {
-    src: "/images/hero/hero-left.png",
-    alt: "Featured Nirvana project",
+    src: "/images/feature/priyanshi-feature.png",
+    alt: "Creative work by Priyanshi Saini",
     label: "Featured / 001",
   },
 
   designer: {
     label: "Featured Designer",
-    name: "ANUSHKA KOTNALA",
-    department: "CSE_AI / 3rd Year",
+    name: "PRIYANSHI SAINI",
+    department: "MAC / 3rd Year",
   },
 
   description:

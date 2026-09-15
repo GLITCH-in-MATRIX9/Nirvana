@@ -261,7 +261,7 @@ export default function ThirdSection() {
                   inset-0
                   h-full
                   w-full
-                  object-cover
+                  object-contain
                 "
               />
 
@@ -537,7 +537,7 @@ export default function ThirdSection() {
                   inset-0
                   h-full
                   w-full
-                  object-cover
+                  object-contain
                   object-center
                 "
               />
