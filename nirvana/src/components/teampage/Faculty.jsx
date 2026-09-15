@@ -23,7 +23,7 @@ export default function Faculty() {
         lg:py-48
       "
     >
-      {/* Background texture */}
+ 
 
       <div
         className="
@@ -36,7 +36,7 @@ export default function Faculty() {
         "
       />
 
-      {/* Subtle violet atmosphere */}
+  
 
       <div
         className="
@@ -54,9 +54,7 @@ export default function Faculty() {
 
       <div className="relative z-10 mx-auto max-w-[1500px]">
 
-        {/* ==================================================
-            HEADING
-        ================================================== */}
+  
 
         <motion.div
           initial={{
@@ -123,11 +121,6 @@ export default function Faculty() {
           </p>
         </motion.div>
 
-
-        {/* ==================================================
-            FACULTY CARDS
-        ================================================== */}
-
         <div
           className="
             grid
@@ -152,9 +145,7 @@ export default function Faculty() {
 }
 
 
-/* ============================================================
-   FACULTY CARD
-============================================================ */
+
 
 function FacultyCard({ faculty, index }) {
   return (
@@ -192,18 +183,16 @@ function FacultyCard({ faculty, index }) {
       "
     >
 
-      {/* ==================================================
-          IMAGE
-      ================================================== */}
+    
 
       <div
         className="
           relative
-          aspect-[1.05]
+          aspect-[1.5]
           w-full
           overflow-hidden
           bg-[#111]
-          md:aspect-[1.15]
+          md:aspect-[1.6]
         "
       >
         <img
@@ -237,28 +226,24 @@ function FacultyCard({ faculty, index }) {
         />
       </div>
 
-
-      {/* ==================================================
-          INFORMATION
-      ================================================== */}
+      
 
       <div
         className="
-          px-6
-          py-6
-          md:px-8
-          md:py-7
+          px-5
+          py-4
+          md:px-6
+          md:py-5
         "
       >
 
-        {/* Name + LinkedIn */}
 
         <div
           className="
             flex
             items-start
             justify-between
-            gap-6
+            gap-5
           "
         >
 
@@ -279,7 +264,7 @@ function FacultyCard({ faculty, index }) {
 
             <p
               className="
-                mt-3
+                mt-2
                 text-[10px]
                 uppercase
                 tracking-[0.16em]
@@ -292,8 +277,7 @@ function FacultyCard({ faculty, index }) {
 
           </div>
 
-
-          {/* LinkedIn */}
+        
 
           <a
             href={faculty.linkedin}
@@ -315,26 +299,23 @@ function FacultyCard({ faculty, index }) {
               fill="currentColor"
               aria-hidden="true"
             >
-              <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.62 0 4.29 2.38 4.29 5.48v6.26zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM3.56 20.45h3.56V9H3.56v11.45zM22.22 0H1.78C.8 0 0 .8 0 1.78v20.44C0 23.2.8 24 1.78 24h20.44C23.2 24 24 23.2 24 22.22V1.78C24 .8 23.2 0 22.22 0z" />
+              <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.62 0 4.29 2.38 4.29 5.48v6.26zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0-4.12 2.06 2.06 0 0 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM3.56 20.45h3.56V9H3.56v11.45zM22.22 0H1.78C.8 0 0 .8 0 1.78v20.44C0 23.2.8 24 1.78 24h20.44C23.2 24 24 23.2 24 22.22V1.78C24 .8 23.2 0 22.22 0z" />
             </svg>
           </a>
 
         </div>
 
-
-        {/* ==================================================
-            DEPARTMENT
-        ================================================== */}
+        
 
         <div
           className="
-            mt-10
+            mt-6
             flex
             items-end
             justify-between
             border-t
             border-black/10
-            pt-5
+            pt-4
           "
         >
 
@@ -348,7 +329,7 @@ function FacultyCard({ faculty, index }) {
                 text-black/40
               "
             >
-              DEPARTMENT
+              
             </p>
 
             <p
@@ -365,8 +346,7 @@ function FacultyCard({ faculty, index }) {
 
           </div>
 
-
-          {/* Arrow */}
+        
 
           <motion.div
             whileHover={{
