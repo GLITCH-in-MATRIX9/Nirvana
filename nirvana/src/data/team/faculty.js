@@ -4,7 +4,7 @@ export const facultyTeam = [
     name: "A k Mahopatra ",
     designation: "FACULTY ADVISOR",
     department: "DEPARTMENT / BRANCH",
-    image: "/images/team/faculty/MahopatraSir.png",
+    image: "/images/faculty/MahopatraSir.png",
     linkedin: "https://www.linkedin.com/in/amar-kumar-mohapatra-11a3b530/",
   },
   {
@@ -12,7 +12,7 @@ export const facultyTeam = [
     name: "Dr. Shweta Jindal",
     designation: "FACULTY ADVISOR",
     department: "DEPARTMENT / BRANCH",
-    image: "/images/team/faculty/ShwetaJindal.png",
+    image: "/images/faculty/Dr. Shweta Jindal.jpeg",
     linkedin: "https://www.linkedin.com/in/dr-shweta-jindal-65889121/",
   },
 ];
