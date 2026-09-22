@@ -226,8 +226,8 @@ export default function RightHeroCard() {
 
 
         <div className="mt-4 space-y-1 text-[10px] text-muted sm:text-body-sm">
-          <p>16 September 2026</p>
-          <p>1–3 PM</p>
+          <p>25 September 2026</p>
+          <p>12 onwards</p>
           <p>Seminar Hall</p>
         </div>
 
