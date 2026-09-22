@@ -26,25 +26,11 @@ export default function Navbar() {
         "
       >
         <motion.button
-          /* Desktop hover opens the menu */
-          onMouseEnter={() => {
-            if (
-              typeof window !== "undefined" &&
-              window.innerWidth >= 768 &&
-              !open
-            ) {
-              setOpen(true);
-            }
-          }}
-
-          /* Mobile + desktop click toggles */
+          /* Click toggles the menu */
           onClick={() => {
             setOpen((prev) => !prev);
           }}
 
-          whileHover={{
-            scale: 1.08,
-          }}
 
           whileTap={{
             scale: 0.92,
@@ -64,10 +50,6 @@ export default function Navbar() {
             backdrop-blur-md
             text-white
             shadow-lg
-            transition-all
-            duration-300
-            hover:border-white/30
-            hover:bg-black/70
 
             sm:h-11
             sm:w-11
