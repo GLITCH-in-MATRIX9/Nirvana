@@ -607,20 +607,33 @@ function MobileWorkImage({
   const [currentIndex, setCurrentIndex] = useState(0);
   const hasMultiple = images.length > 1;
 
-  const heights = [
+  // Perfectly balanced alternating heights so Column 0 and Column 1 match total height
+  const col0Heights = [
+    "h-[280px]",
+    "h-[230px]",
+    "h-[290px]",
+    "h-[220px]",
+    "h-[270px]",
     "h-[240px]",
-    "h-[320px]",
-    "h-[275px]",
-    "h-[350px]",
-    "h-[255px]",
-    "h-[330px]",
+    "h-[280px]",
+    "h-[230px]",
+  ];
+
+  const col1Heights = [
+    "h-[230px]",
+    "h-[280px]",
+    "h-[220px]",
+    "h-[290px]",
+    "h-[240px]",
+    "h-[270px]",
+    "h-[230px]",
+    "h-[280px]",
   ];
 
   const height =
-    heights[
-    (index * 2 + columnIndex) %
-    heights.length
-    ];
+    columnIndex === 0
+      ? col0Heights[index % col0Heights.length]
+      : col1Heights[index % col1Heights.length];
 
   const prevImage = (e) => {
     e.stopPropagation();
@@ -636,23 +649,19 @@ function MobileWorkImage({
     <motion.div
       initial={{
         opacity: 0,
-        y: 35,
-        scale: 0.97,
+        y: 20,
       }}
       whileInView={{
         opacity: 1,
         y: 0,
-        scale: 1,
       }}
       viewport={{
         once: true,
-        amount: 0.08,
+        margin: "120px 0px",
       }}
       transition={{
-        duration: 0.7,
-        delay:
-          columnIndex * 0.08 +
-          index * 0.06,
+        duration: 0.5,
+        delay: (index % 4) * 0.05,
         ease,
       }}
       className={`
@@ -661,6 +670,8 @@ function MobileWorkImage({
         ${height}
         w-full
         overflow-hidden
+        border
+        border-[var(--color-border)]
         bg-[var(--color-surface)]
       `}
     >
@@ -670,49 +681,16 @@ function MobileWorkImage({
         src={images[currentIndex]}
         alt={item.artist ? `${item.artist} artwork` : ""}
         draggable="false"
-        initial={{ opacity: 0.5 }}
+        initial={{ opacity: 0.6 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.35, ease: "easeOut" }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
         className="
           h-full
           w-full
           object-cover
-          grayscale-[8%]
-          transition-all
+          transition-transform
           duration-500
           ease-out
-        "
-      />
-
-      {/* SUBTLE DARK TREATMENT */}
-      <div
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          bg-black/10
-        "
-      />
-
-      {/* MOBILE VIOLET TINT */}
-      <motion.div
-        initial={{
-          opacity: 0,
-        }}
-        whileInView={{
-          opacity: 0.12,
-        }}
-        viewport={{
-          once: true,
-        }}
-        transition={{
-          duration: 0.8,
-        }}
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          bg-[radial-gradient(circle_at_50%_35%,rgba(56,32,68,0.35),transparent_65%)]
         "
       />
 
@@ -727,8 +705,8 @@ function MobileWorkImage({
             flex
             items-center
             bg-gradient-to-b
-            from-black/75
-            via-black/30
+            from-black/80
+            via-black/40
             to-transparent
             p-2.5
             pb-6
@@ -743,7 +721,7 @@ function MobileWorkImage({
                 text-[10px]
                 font-semibold
                 uppercase
-                tracking-[0.12em]
+                tracking-[0.14em]
                 text-white
                 drop-shadow-sm
                 sm:text-[11px]
