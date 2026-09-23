@@ -264,8 +264,18 @@ function WorkImage({
     "h-[470px]",
   ];
 
+  // Column 1: Row 1 increased by 40px (380px, shorter than (1,2) at 430px), Row 2 reduced by 40px (390px)
+  const col1Heights = [
+    "h-[380px]",
+    "h-[390px]",
+    "h-[370px]",
+    "h-[470px]",
+  ];
+
   const height =
-    heights[(index + columnIndex) % heights.length];
+    columnIndex === 0
+      ? col1Heights[index]
+      : heights[(index + columnIndex) % heights.length];
 
   const prevImage = (e) => {
     e.stopPropagation();
@@ -368,26 +378,90 @@ function WorkImage({
       />
 
       {/* =====================================================
-          CAROUSEL CONTROLS (PHASE 1 - ONLY FOR MULTI-IMAGE CARDS)
+          TOP BAR: ARTIST INFO (HOVER REVEAL)
+          Clean, uncrowded, styled after TeamGrid labels
+      ===================================================== */}
+      {item.artist && (
+        <div
+          className="
+            absolute
+            inset-x-0
+            top-0
+            z-20
+            flex
+            items-center
+            justify-between
+            bg-gradient-to-b
+            from-black/75
+            via-black/35
+            to-transparent
+            p-3.5
+            pb-8
+            opacity-0
+            transition-opacity
+            duration-300
+            group-hover:opacity-100
+            sm:p-4
+            sm:pb-10
+          "
+        >
+          <div className="flex items-center gap-2">
+            <span
+              className="
+                font-display
+                text-[11px]
+                font-semibold
+                uppercase
+                tracking-[0.14em]
+                text-white
+                drop-shadow-md
+                sm:text-[12px]
+              "
+            >
+              {item.artist}
+            </span>
+            {item.branch && (
+              <span
+                className="
+                  text-[9px]
+                  font-mono
+                  uppercase
+                  tracking-[0.18em]
+                  text-white/60
+                "
+              >
+                • {item.branch}
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* =====================================================
+          BOTTOM BAR: CAROUSEL CONTROLS (HOVER REVEAL)
       ===================================================== */}
       {hasMultiple && (
         <div
           className="
             absolute
-            bottom-3
-            left-3
-            right-3
+            inset-x-0
+            bottom-0
             z-20
             flex
             items-center
             justify-between
+            bg-gradient-to-t
+            from-black/75
+            via-black/30
+            to-transparent
+            p-3.5
+            pt-8
             opacity-0
             transition-opacity
             duration-300
             group-hover:opacity-100
-            sm:bottom-4
-            sm:left-4
-            sm:right-4
+            sm:p-4
+            sm:pt-10
           "
         >
           {/* Previous Button */}
@@ -439,10 +513,9 @@ function WorkImage({
                   className={`
                     transition-all
                     duration-300
-                    ${
-                      currentIndex === dotIndex
-                        ? "h-1 w-4 rounded-full bg-white"
-                        : "h-1 w-1 rounded-full bg-white/40 hover:bg-white/70"
+                    ${currentIndex === dotIndex
+                      ? "h-1 w-4 rounded-full bg-white"
+                      : "h-1 w-1 rounded-full bg-white/40 hover:bg-white/70"
                     }
                   `}
                 />
@@ -545,8 +618,8 @@ function MobileWorkImage({
 
   const height =
     heights[
-      (index * 2 + columnIndex) %
-        heights.length
+    (index * 2 + columnIndex) %
+    heights.length
     ];
 
   const prevImage = (e) => {
@@ -643,21 +716,77 @@ function MobileWorkImage({
         "
       />
 
-      {/* CAROUSEL CONTROLS FOR MOBILE (IF MULTIPLE) */}
+      {/* MOBILE TOP ARTIST INFO */}
+      {item.artist && (
+        <div
+          className="
+            absolute
+            inset-x-0
+            top-0
+            z-20
+            flex
+            items-center
+            bg-gradient-to-b
+            from-black/75
+            via-black/30
+            to-transparent
+            p-2.5
+            pb-6
+            sm:p-3
+            sm:pb-8
+          "
+        >
+          <div className="flex items-center gap-1.5">
+            <span
+              className="
+                font-display
+                text-[10px]
+                font-semibold
+                uppercase
+                tracking-[0.12em]
+                text-white
+                drop-shadow-sm
+                sm:text-[11px]
+              "
+            >
+              {item.artist}
+            </span>
+            {item.branch && (
+              <span
+                className="
+                  text-[8.5px]
+                  font-mono
+                  uppercase
+                  tracking-[0.16em]
+                  text-white/60
+                "
+              >
+                • {item.branch}
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* MOBILE BOTTOM CAROUSEL CONTROLS */}
       {hasMultiple ? (
         <div
           className="
             absolute
-            bottom-2.5
-            left-2.5
-            right-2.5
+            inset-x-0
+            bottom-0
             z-20
             flex
             items-center
             justify-between
-            sm:bottom-3
-            sm:left-3
-            sm:right-3
+            bg-gradient-to-t
+            from-black/75
+            via-black/30
+            to-transparent
+            p-2.5
+            pt-6
+            sm:p-3
+            sm:pt-8
           "
         >
           {/* Previous Button */}
@@ -708,10 +837,9 @@ function MobileWorkImage({
                   className={`
                     transition-all
                     duration-300
-                    ${
-                      currentIndex === dotIndex
-                        ? "h-1 w-3 rounded-full bg-white"
-                        : "h-1 w-1 rounded-full bg-white/40"
+                    ${currentIndex === dotIndex
+                      ? "h-1 w-3 rounded-full bg-white"
+                      : "h-1 w-1 rounded-full bg-white/40"
                     }
                   `}
                 />
@@ -771,19 +899,8 @@ function MobileWorkImage({
           </button>
         </div>
       ) : (
-        /* SMALL ACCENT FOR SINGLE IMAGE */
-        <div
-          className="
-            absolute
-            bottom-3
-            left-3
-            h-px
-            w-5
-            bg-white/40
-            sm:bottom-4
-            sm:left-4
-          "
-        />
+        /* Subtle accent line for single image on mobile */
+        <div className="absolute bottom-3 left-3 h-px w-5 bg-white/40 sm:bottom-4 sm:left-4" />
       )}
     </motion.div>
   );
