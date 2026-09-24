@@ -69,7 +69,7 @@ const socialLinks = [
 ];
 
 const WHATSAPP_LINK =
-  "https://chat.whatsapp.com/ImoVWQe1jslG5O72ubUnq2";
+  "https://chat.whatsapp.com/HE6qtPrUmvC0DaAFyCgArg?s=cl&p=i&mlu=4&ilr=4";
 
 /* ============================================================
    ANIMATION
