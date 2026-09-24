@@ -2,6 +2,7 @@ import Hero from "@/components/teampage/Hero";
 import Faculty from "@/components/teampage/Faculty";
 import JoinCommunity from "@/components/teampage/JoinCommunity";
 import TeamGrid from "@/components/teampage/TeamGrid";
+import TechnicalTeam from "@/components/teampage/TechnicalTeam";
 
 
 export default function TeamPage() {
@@ -11,10 +12,9 @@ export default function TeamPage() {
       <Faculty/>
 
       <TeamGrid />
-      <JoinCommunity/>
+      <TechnicalTeam />
+      <JoinCommunity />
 
-
-      
 
     </main>
   );

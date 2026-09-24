@@ -239,17 +239,27 @@ export default function Hero() {
             lg:h-[560px]
           "
         >
-          <div
-            className="
-              group/cards
-              flex
-              w-full
-              items-center
-              justify-center
-              px-4
-              md:px-8
-            "
-          >
+                  <div
+  className="
+    group/cards
+    flex
+    w-full
+    max-w-full
+    items-center
+    justify-start
+    overflow-x-auto
+    overflow-y-visible
+    px-4
+    pb-6
+    md:justify-center
+    md:overflow-visible
+    md:px-8
+    [scrollbar-width:none]
+    [&::-webkit-scrollbar]:hidden
+    snap-x
+    snap-mandatory
+  "
+>
             {people.map((person, index) => (
               <TeamCard
                 key={person.number}
