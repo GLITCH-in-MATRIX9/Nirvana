@@ -2,721 +2,677 @@
 
 import {
   motion,
-  useScroll,
+  useMotionValue,
+  useSpring,
   useTransform,
+  AnimatePresence,
 } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
-const services = [
+/* =========================================================
+   DATA
+========================================================= */
+
+const disciplines = [
   {
-    number: "01",
-    title: "VISUAL DESIGN",
+    id: "01",
+    title: "CREATIVE",
+    short: "CREATE",
     description:
-      "We turn ideas into visual experiences through posters, campaigns, illustrations, social media and digital design.",
+      "We turn ideas into visual experiences that feel unexpected, expressive and distinctly Nirvana.",
+    word: "CREATE",
+    accent: "#b794f4",
+    tags: ["DIRECTION", "CONCEPT", "ART"],
   },
   {
-    number: "02",
-    title: "BRANDING",
-    description:
-      "From identity systems to typography and visual language, we create identities that feel distinct and memorable.",
-  },
-  {
-    number: "03",
+    id: "02",
     title: "UI / UX",
+    short: "INTERACT",
     description:
-      "We explore interfaces, interactions and digital experiences with a focus on clarity, usability and visual expression.",
+      "We design digital experiences where interaction, structure and visual language work together.",
+    word: "INTERACT",
+    accent: "#8ab4f8",
+    tags: ["SYSTEMS", "FLOWS", "PROTOTYPE"],
   },
   {
-    number: "04",
-    title: "CREATIVE DIRECTION",
+    id: "03",
+    title: "BRANDING",
+    short: "IDENTITY",
     description:
-      "We bring concepts together through art direction, storytelling and a consistent visual language.",
+      "We build identities that give ideas a recognizable visual voice.",
+    word: "IDENTIFY",
+    accent: "#f6ad8c",
+    tags: ["MARKS", "TYPE", "TONE"],
   },
   {
-    number: "05",
-    title: "EXPERIMENTATION",
+    id: "04",
+    title: "MOTION",
+    short: "MOVE",
     description:
-      "3D, motion, photography, generative visuals and everything in between. We make room for experimentation.",
+      "We bring static ideas to life through motion, rhythm and visual storytelling.",
+    word: "MOTION",
+    accent: "#7ee0c4",
+    tags: ["TIMING", "EASE", "RHYTHM"],
+  },
+  {
+    id: "05",
+    title: "CONTENT",
+    short: "EXPRESS",
+    description:
+      "We create content that communicates ideas while still feeling unmistakably ours.",
+    word: "EXPRESS",
+    accent: "#f4a9d1",
+    tags: ["STORY", "EDIT", "VOICE"],
   },
 ];
 
 const ease = [0.16, 1, 0.3, 1];
 
+/* =========================================================
+   STATIC TICK MARKS
+   — computed once at module load so server and client
+     render the identical SVG
+========================================================= */
+
+const TICK_COUNT = 60;
+
+const tickMarks = Array.from({ length: TICK_COUNT }).map((_, i) => {
+  const angle = (i / TICK_COUNT) * Math.PI * 2;
+  const r1 = 96;
+  const r2 = i % 5 === 0 ? 104 : 100;
+
+  // round to 3 decimals so float precision doesn't differ
+  const round = (n) => Number(n.toFixed(3));
+
+  return {
+    i,
+    x1: round(100 + r1 * Math.cos(angle)),
+    y1: round(100 + r1 * Math.sin(angle)),
+    x2: round(100 + r2 * Math.cos(angle)),
+    y2: round(100 + r2 * Math.sin(angle)),
+  };
+});
+
+/* =========================================================
+   COMPONENT
+========================================================= */
+
 export default function WhatWeDo() {
   const sectionRef = useRef(null);
+  const [active, setActive] = useState(0);
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"],
-  });
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
 
-  /*
-   * DESKTOP ONLY
-   *
-   * The right side moves upward while
-   * the left side stays completely static.
-   */
-  const servicesY = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ["0%", "-72%"]
+  const smoothX = useSpring(mouseX, { stiffness: 60, damping: 20 });
+  const smoothY = useSpring(mouseY, { stiffness: 60, damping: 20 });
+
+  const tiltX = useTransform(smoothX, [-1, 1], [-8, 8]);
+  const tiltY = useTransform(smoothY, [-1, 1], [-8, 8]);
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      const y = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+      mouseX.set(x);
+      mouseY.set(y);
+    };
+
+    const section = sectionRef.current;
+    section?.addEventListener("mousemove", handleMouseMove);
+    return () => {
+      section?.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [mouseX, mouseY]);
+
+  const current = disciplines[active];
+
+  /* memoize the radial gradient string */
+  const glowBackground = useMemo(
+    () =>
+      `radial-gradient(circle, ${current.accent}22, transparent 65%)`,
+    [current.accent]
   );
 
   return (
     <section
       ref={sectionRef}
       className="
+        section
         relative
         w-full
+        overflow-hidden
         bg-[var(--color-black)]
+        text-primary
+
+        pt-28 pb-32
+        sm:pt-36 sm:pb-40
+        lg:pt-44 lg:pb-52
       "
     >
+      {/* ATMOSPHERE */}
+      <div className="noise absolute inset-0 z-0 opacity-[0.055]" />
 
-      {/* =====================================================
-          DESKTOP
-          Sticky parallax experience
-      ===================================================== */}
-
-      <div
+      <motion.div
+        animate={{ background: glowBackground }}
+        transition={{ duration: 1.2, ease }}
         className="
-          hidden
-          lg:block
-          relative
-          h-[500vh]
-          w-full
+          pointer-events-none
+          absolute
+          left-1/2
+          top-[30%]
+          h-[700px]
+          w-[700px]
+          -translate-x-1/2
+          rounded-full
+          blur-3xl
         "
-      >
+      />
 
-        <div
+      {/* HEADER */}
+      <div className="container relative z-20">
+        <motion.div
+          initial={{ opacity: 0, y: 45, filter: "blur(8px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 1, ease }}
           className="
-            sticky
-            top-0
-            h-screen
-            w-full
-            overflow-hidden
+            grid
+            grid-cols-1
+            gap-10
+
+            lg:grid-cols-12
+            lg:items-end
+            lg:gap-12
           "
         >
-
-          {/* =================================================
-              BACKGROUND NOISE
-          ================================================= */}
-
-          <div className="noise z-0 opacity-[0.06]" />
-
-
-          {/* =================================================
-              DARK VIOLET ATMOSPHERE
-          ================================================= */}
-
-          <div
-            className="
-              violet-glow-soft
-              pointer-events-none
-              absolute
-              left-[18%]
-              top-1/2
-              z-0
-              h-[500px]
-              w-[500px]
-              -translate-y-1/2
-              rounded-full
-              opacity-80
-            "
-          />
-
-
-          {/* =================================================
-              LEFT SIDE — STATIC
-          ================================================= */}
-
-          <div
-            className="
-              absolute
-              left-0
-              top-0
-              z-10
-              flex
-              h-full
-              w-1/2
-              items-center
-              px-12
-              lg:px-20
-            "
-          >
-
-            <div className="max-w-[650px]">
-
-              {/* Label */}
-
-              <motion.span
-                initial={{
-                  opacity: 0,
-                  y: 20,
-                }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                viewport={{
-                  once: true,
-                }}
-                transition={{
-                  duration: 0.8,
-                  ease,
-                }}
-                className="
-                  text-micro
-                  text-subtle
-                "
-              >
-                04 — What We Do
-              </motion.span>
-
-
-              {/* Heading */}
-
-              <h2
-                className="
-                  text-display-lg
-                  mt-8
-                  text-primary
-                "
-              >
-                WHAT WE
-                <br />
-
-                <span className="text-subtle">
-                  CAN CREATE
-                </span>
-              </h2>
-
-
-              {/* Description */}
-
-              <p
-                className="
-                  text-body-lg
-                  mt-10
-                  max-w-[420px]
-                  text-muted
-                "
-              >
-                From visual identities to digital experiences,
-                we explore different ways to turn ideas into
-                something people can see, feel and remember.
-              </p>
-
-            </div>
-
-          </div>
-
-
-          {/* =================================================
-              VERTICAL DIVIDER
-          ================================================= */}
-
-          <div
-            className="
-              pointer-events-none
-              absolute
-              bottom-12
-              left-1/2
-              top-12
-              z-10
-              w-px
-              bg-[var(--color-border)]
-            "
-          />
-
-
-          {/* =================================================
-              RIGHT SIDE — PARALLAX VIEWPORT
-          ================================================= */}
-
-          <div
-            className="
-              absolute
-              right-0
-              top-0
-              z-10
-              h-full
-              w-1/2
-              overflow-hidden
-            "
-          >
-
-            {/* TOP FADE */}
-
-            <div
-              className="
-                pointer-events-none
-                absolute
-                left-0
-                right-0
-                top-0
-                z-20
-                h-32
-                bg-gradient-to-b
-                from-[var(--color-black)]
-                to-transparent
-              "
-            />
-
-
-            {/* MOVING SERVICES */}
-
-            <motion.div
-              style={{
-                y: servicesY,
-              }}
-              className="
-                absolute
-                left-0
-                top-0
-                w-full
-              "
-            >
-              {services.map((service) => (
-                <ServiceItem
-                  key={service.number}
-                  service={service}
-                />
-              ))}
-            </motion.div>
-
-
-            {/* BOTTOM FADE */}
-
-            <div
-              className="
-                pointer-events-none
-                absolute
-                bottom-0
-                left-0
-                right-0
-                z-20
-                h-40
-                bg-gradient-to-t
-                from-[var(--color-black)]
-                to-transparent
-              "
-            />
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      {/* =====================================================
-          MOBILE + TABLET
-          Normal scrolling layout
-      ===================================================== */}
-
-      <div
-        className="
-          block
-          w-full
-          lg:hidden
-        "
-      >
-
-        {/* =================================================
-            BACKGROUND
-        ================================================= */}
-
-        <div className="pointer-events-none absolute inset-0">
-
-          <div className="noise z-0 opacity-[0.05]" />
-
-          <div
-            className="
-              violet-glow-soft
-              absolute
-              left-[-20%]
-              top-[5%]
-              h-[350px]
-              w-[350px]
-              rounded-full
-              opacity-50
-            "
-          />
-
-        </div>
-
-
-        {/* =================================================
-            CONTENT
-        ================================================= */}
-
-        <div
-          className="
-            relative
-            z-10
-            px-5
-            py-24
-
-            sm:px-8
-            sm:py-28
-          "
-        >
-
-          {/* =================================================
-              INTRO
-          ================================================= */}
-
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 35,
-              filter: "blur(8px)",
-            }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-              filter: "blur(0px)",
-            }}
-            viewport={{
-              once: true,
-              amount: 0.2,
-            }}
-            transition={{
-              duration: 0.9,
-              ease,
-            }}
-          >
-
-            {/* Label */}
-
+          <div className="lg:col-span-7">
             <span className="text-micro text-subtle">
-              04 — What We Do
+              04 — WHAT WE DO
             </span>
-
-
-            {/* Heading */}
 
             <h2
               className="
                 mt-6
-                text-[clamp(3.1rem,12vw,5rem)]
-                leading-[0.8]
-                tracking-[-0.055em]
-                text-primary
-
-                sm:mt-8
-                sm:text-display-lg
+                text-[clamp(3rem,9vw,6.5rem)]
+                leading-[0.78]
+                tracking-[-0.065em]
               "
             >
-              WHAT WE
+              WE MAKE
               <br />
-
-              <span className="text-subtle">
-                CAN CREATE
-              </span>
+              <span className="text-subtle">THINGS MOVE.</span>
             </h2>
+          </div>
 
-
-            {/* Description */}
+          <div className="lg:col-span-5 lg:pb-2">
+            <span className="text-micro text-subtle">
+              / DISCIPLINES
+            </span>
 
             <p
               className="
-                text-body
-                mt-7
+                mt-5
                 max-w-[440px]
+                text-body
                 leading-6
                 text-muted
 
-                sm:mt-10
                 sm:text-body-lg
                 sm:leading-7
               "
             >
-              From visual identities to digital experiences,
-              we explore different ways to turn ideas into
-              something people can see, feel and remember.
+              Five disciplines. One creative language.
+              Each one is a different way of making the
+              same idea land — through form, interaction,
+              identity, rhythm and voice.
             </p>
+          </div>
+        </motion.div>
+      </div>
 
-          </motion.div>
+      {/* MAIN EXPERIENCE */}
+      <div className="container relative z-10 mt-20 sm:mt-28">
+        <div
+          className="
+            grid
+            grid-cols-1
+            gap-16
 
+            lg:grid-cols-12
+            lg:gap-14
+            lg:items-center
+          "
+        >
+          {/* LIST */}
+          <div className="lg:col-span-5">
+            <ul className="border-t border-[var(--color-border)]">
+              {disciplines.map((item, index) => {
+                const isActive = active === index;
 
-          {/* =================================================
-              MOBILE SERVICE LIST
-          ================================================= */}
+                return (
+                  <li
+                    key={item.id}
+                    className="border-b border-[var(--color-border)]"
+                  >
+                    <button
+                      onMouseEnter={() => setActive(index)}
+                      onFocus={() => setActive(index)}
+                      onClick={() => setActive(index)}
+                      className="
+                        group
+                        flex
+                        w-full
+                        items-center
+                        gap-6
+                        py-6
+                        text-left
 
-          <div className="mt-14 sm:mt-20">
+                        sm:py-7
+                      "
+                    >
+                      <span
+                        className={`
+                          text-micro
+                          transition-colors
+                          duration-500
 
-            {services.map((service, index) => (
-              <MobileServiceItem
-                key={service.number}
-                service={service}
-                index={index}
-              />
-            ))}
+                          ${
+                            isActive
+                              ? "text-[var(--color-violet-muted)]"
+                              : "text-subtle"
+                          }
+                        `}
+                      >
+                        {item.id}
+                      </span>
 
+                      <span
+                        className={`
+                          flex-1
+                          text-[clamp(1.6rem,3.2vw,2.6rem)]
+                          leading-[0.95]
+                          tracking-[-0.05em]
+                          transition-colors
+                          duration-500
+
+                          ${
+                            isActive
+                              ? "text-primary"
+                              : "text-muted"
+                          }
+                        `}
+                      >
+                        {item.title}
+                      </span>
+
+                      <span
+                        className={`
+                          hidden
+                          text-micro
+                          transition-colors
+                          duration-500
+
+                          sm:block
+
+                          ${
+                            isActive
+                              ? "text-primary"
+                              : "text-subtle"
+                          }
+                        `}
+                      >
+                        {item.short}
+                      </span>
+
+                      <motion.span
+                        animate={{
+                          x: isActive ? 0 : -6,
+                          opacity: isActive ? 1 : 0.4,
+                        }}
+                        transition={{ duration: 0.5, ease }}
+                        className="text-primary text-sm"
+                      >
+                        →
+                      </motion.span>
+                    </button>
+
+                    <AnimatePresence initial={false}>
+                      {isActive && (
+                        <motion.div
+                          key="desc"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.5, ease }}
+                          className="overflow-hidden"
+                        >
+                          <p
+                            className="
+                              pb-7
+                              pl-[calc(theme(spacing.6)+1rem)]
+                              pr-8
+                              text-body-sm
+                              leading-6
+                              text-muted
+
+                              sm:pb-8
+                            "
+                          >
+                            {item.description}
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
 
+          {/* TYPOGRAPHIC INSTRUMENT */}
+          <div className="lg:col-span-7">
+            <div className="relative mx-auto w-full max-w-[560px]">
+              <motion.div
+                style={{ x: tiltX, y: tiltY }}
+                className="
+                  relative
+                  aspect-square
+                  w-full
+                "
+              >
+                {/* ROTATING RINGS */}
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{
+                    duration: 60,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                  className="
+                    pointer-events-none
+                    absolute
+                    inset-0
+                    rounded-full
+                    border
+                    border-dashed
+                    border-white/[0.08]
+                  "
+                />
+
+                <motion.div
+                  animate={{ rotate: -360 }}
+                  transition={{
+                    duration: 90,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                  className="
+                    pointer-events-none
+                    absolute
+                    inset-[8%]
+                    rounded-full
+                    border
+                    border-white/[0.06]
+                  "
+                />
+
+                {/* PROGRESS ARC + TICKS */}
+                <svg
+                  viewBox="0 0 200 200"
+                  className="
+                    pointer-events-none
+                    absolute
+                    inset-[14%]
+                    h-[72%]
+                    w-[72%]
+                  "
+                >
+                  <circle
+                    cx="100"
+                    cy="100"
+                    r="90"
+                    fill="none"
+                    stroke="rgba(255,255,255,0.06)"
+                    strokeWidth="0.6"
+                  />
+
+                  <motion.circle
+                    cx="100"
+                    cy="100"
+                    r="90"
+                    fill="none"
+                    stroke={current.accent}
+                    strokeWidth="1"
+                    strokeLinecap="round"
+                    strokeDasharray="565"
+                    initial={false}
+                    animate={{
+                      strokeDashoffset:
+                        565 - (565 * (active + 1)) / disciplines.length,
+                    }}
+                    transition={{ duration: 0.9, ease }}
+                    style={{
+                      transform: "rotate(-90deg)",
+                      transformOrigin: "50% 50%",
+                    }}
+                  />
+
+                  {tickMarks.map((t) => (
+                    <line
+                      key={t.i}
+                      x1={t.x1}
+                      y1={t.y1}
+                      x2={t.x2}
+                      y2={t.y2}
+                      stroke="rgba(255,255,255,0.15)"
+                      strokeWidth="0.4"
+                    />
+                  ))}
+                </svg>
+
+                {/* ORBITAL DOTS */}
+                {[0, 1, 2].map((dot) => (
+                  <motion.div
+                    key={dot}
+                    animate={{ rotate: 360 }}
+                    transition={{
+                      duration: 24 + dot * 8,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                    className="
+                      pointer-events-none
+                      absolute
+                      inset-0
+                      rounded-full
+                    "
+                    style={{ rotate: dot * 120 }}
+                  >
+                    <span
+                      className="
+                        absolute
+                        left-1/2
+                        top-0
+                        h-2
+                        w-2
+                        -translate-x-1/2
+                        rounded-full
+                      "
+                      style={{
+                        background: current.accent,
+                        opacity: 0.7,
+                      }}
+                    />
+                  </motion.div>
+                ))}
+
+                {/* CENTER WORD */}
+                <div
+                  className="
+                    absolute
+                    inset-0
+                    flex
+                    items-center
+                    justify-center
+                  "
+                >
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={current.word}
+                      initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
+                      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                      exit={{ opacity: 0, y: -24, filter: "blur(6px)" }}
+                      transition={{ duration: 0.7, ease }}
+                      className="text-center"
+                    >
+                      <span
+                        className="
+                          block
+                          text-[0.65rem]
+                          uppercase
+                          tracking-[0.32em]
+                          text-subtle
+                        "
+                      >
+                        {current.id} / 0{disciplines.length}
+                      </span>
+
+                      <h3
+                        className="
+                          mt-3
+                          text-[clamp(2rem,4.4vw,3.4rem)]
+                          uppercase
+                          leading-[0.9]
+                          tracking-[-0.055em]
+                        "
+                        style={{ color: current.accent }}
+                      >
+                        {current.word}
+                      </h3>
+
+                      <span
+                        className="
+                          mx-auto
+                          mt-4
+                          block
+                          h-px
+                          w-10
+                        "
+                        style={{ background: current.accent }}
+                      />
+
+                      <span
+                        className="
+                          mt-4
+                          block
+                          text-[0.7rem]
+                          uppercase
+                          tracking-[0.22em]
+                          text-muted
+                        "
+                      >
+                        {current.short}
+                      </span>
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+
+                {/* CORNER TAGS */}
+                {current.tags.map((tag, i) => {
+                  const positions = [
+                    "left-[-6%] top-[16%]",
+                    "right-[-8%] top-[42%]",
+                    "left-[6%] bottom-[10%]",
+                  ];
+
+                  return (
+                    <motion.span
+                      key={current.word + tag}
+                      initial={{ opacity: 0, x: i % 2 === 0 ? -10 : 10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.6, delay: 0.1 * i, ease }}
+                      className={`
+                        pointer-events-none
+                        absolute
+                        ${positions[i]}
+                        hidden
+                        text-[0.6rem]
+                        uppercase
+                        tracking-[0.22em]
+                        text-muted
+
+                        sm:block
+                      `}
+                    >
+                      <span
+                        className="
+                          mr-2
+                          inline-block
+                          h-1.5
+                          w-1.5
+                          rounded-full
+                          align-middle
+                        "
+                        style={{ background: current.accent }}
+                      />
+                      {tag}
+                    </motion.span>
+                  );
+                })}
+              </motion.div>
+
+              {/* BOTTOM READOUT */}
+              <div
+                className="
+                  mt-10
+                  flex
+                  items-center
+                  justify-between
+                  gap-4
+                  border-t
+                  border-[var(--color-border)]
+                  pt-4
+                "
+              >
+                <span className="text-micro text-subtle">
+                  ACTIVE
+                </span>
+
+                <div className="flex items-center gap-2">
+                  {disciplines.map((_, i) => (
+                    <button
+                      key={i}
+                      onMouseEnter={() => setActive(i)}
+                      onClick={() => setActive(i)}
+                      aria-label={`Go to discipline ${i + 1}`}
+                      className="
+                        h-[3px]
+                        transition-all
+                        duration-500
+                      "
+                      style={{
+                        width: i === active ? "36px" : "14px",
+                        background:
+                          i === active
+                            ? current.accent
+                            : "rgba(255,255,255,0.15)",
+                      }}
+                    />
+                  ))}
+                </div>
+
+                <span className="text-micro text-subtle">
+                  {current.short}
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
-
       </div>
-
     </section>
-  );
-}
-
-
-/* =========================================================
-   DESKTOP SERVICE ITEM
-========================================================= */
-
-function ServiceItem({ service }) {
-  return (
-    <motion.div
-      className="
-        group
-        flex
-        min-h-[230px]
-        w-full
-        flex-col
-        justify-center
-        border-b
-        border-[var(--color-border)]
-        px-10
-        lg:px-14
-      "
-    >
-
-      {/* NUMBER */}
-
-      <span
-        className="
-          text-caption
-          mb-4
-          text-subtle
-        "
-      >
-        {service.number}
-      </span>
-
-
-      {/* TITLE */}
-
-      <h3
-        className="
-          text-h2
-          text-primary
-          transition-transform
-          duration-500
-          group-hover:translate-x-3
-        "
-      >
-        {service.title}
-      </h3>
-
-
-      {/* DESCRIPTION */}
-
-      <div
-        className="
-          mt-6
-          flex
-          items-end
-          justify-between
-          gap-6
-        "
-      >
-
-        <p
-          className="
-            text-body
-            max-w-[400px]
-            text-muted
-            transition-colors
-            duration-500
-            group-hover:text-primary
-          "
-        >
-          {service.description}
-        </p>
-
-
-        {/* Arrow */}
-
-        <motion.span
-          className="
-            hidden
-            text-3xl
-            text-[var(--color-violet-muted)]
-            md:block
-          "
-          whileHover={{
-            x: 8,
-            y: -8,
-          }}
-        >
-          ↗
-        </motion.span>
-
-      </div>
-
-    </motion.div>
-  );
-}
-
-
-/* =========================================================
-   MOBILE SERVICE ITEM
-========================================================= */
-
-function MobileServiceItem({
-  service,
-  index,
-}) {
-  return (
-    <motion.article
-      initial={{
-        opacity: 0,
-        y: 45,
-        filter: "blur(6px)",
-      }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-        filter: "blur(0px)",
-      }}
-      viewport={{
-        once: true,
-        amount: 0.15,
-      }}
-      transition={{
-        duration: 0.75,
-        delay: index * 0.05,
-        ease,
-      }}
-      className="
-        group
-        relative
-        border-t
-        border-[var(--color-border)]
-        py-7
-
-        sm:py-9
-      "
-    >
-
-      {/* =================================================
-          TOP ROW
-      ================================================= */}
-
-      <div
-        className="
-          mb-4
-          flex
-          items-center
-          justify-between
-        "
-      >
-
-        <span className="text-caption text-subtle">
-          {service.number}
-        </span>
-
-        <motion.span
-          initial={{
-            opacity: 0,
-            x: 5,
-          }}
-          whileInView={{
-            opacity: 1,
-            x: 0,
-          }}
-          viewport={{
-            once: true,
-          }}
-          transition={{
-            delay: 0.2 + index * 0.05,
-            duration: 0.5,
-          }}
-          className="
-            text-lg
-            text-[var(--color-violet-muted)]
-          "
-        >
-          ↗
-        </motion.span>
-
-      </div>
-
-
-      {/* =================================================
-          TITLE
-      ================================================= */}
-
-      <h3
-        className="
-          text-[clamp(2rem,8vw,3rem)]
-          leading-[0.85]
-          tracking-[-0.045em]
-          text-primary
-          transition-transform
-          duration-500
-          group-hover:translate-x-1
-
-          sm:text-h2
-        "
-      >
-        {service.title}
-      </h3>
-
-
-      {/* =================================================
-          DESCRIPTION
-      ================================================= */}
-
-      <p
-        className="
-          text-body-sm
-          mt-4
-          max-w-[500px]
-          leading-5
-          text-muted
-
-          sm:mt-5
-          sm:text-body
-          sm:leading-6
-        "
-      >
-        {service.description}
-      </p>
-
-
-      {/* =================================================
-          ACCENT
-      ================================================= */}
-
-      <motion.div
-        initial={{
-          width: 18,
-        }}
-        whileInView={{
-          width: 32,
-        }}
-        viewport={{
-          once: true,
-        }}
-        transition={{
-          duration: 0.6,
-          delay: 0.15 + index * 0.05,
-          ease,
-        }}
-        className="
-          mt-6
-          h-px
-          bg-[var(--color-violet-muted)]
-          opacity-60
-        "
-      />
-
-    </motion.article>
   );
 }
