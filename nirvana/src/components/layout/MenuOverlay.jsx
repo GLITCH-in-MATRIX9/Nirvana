@@ -219,7 +219,6 @@ export default function MenuOverlay({ onClose }) {
                 href={menuItem.href}
                 onClick={onClose}
                 className="
-                  group
                   relative
                   flex
                   w-full
@@ -234,20 +233,7 @@ export default function MenuOverlay({ onClose }) {
                   xl:px-20
                 "
               >
-                {/* Hover background highlight */}
-                <div
-                  className="
-                    absolute
-                    inset-0
-                    origin-left
-                    scale-x-0
-                    bg-[var(--color-violet-soft)]
-                    transition-transform
-                    duration-500
-                    ease-[cubic-bezier(0.16,1,0.3,1)]
-                    group-hover:scale-x-100
-                  "
-                />
+
 
                 {/* Number */}
                 <span
@@ -257,9 +243,6 @@ export default function MenuOverlay({ onClose }) {
                     mr-4
                     text-micro
                     text-subtle
-                    transition-colors
-                    duration-300
-                    group-hover:text-[var(--color-violet-muted)]
                     sm:mr-6
                     md:mr-8
                   "
@@ -278,9 +261,6 @@ export default function MenuOverlay({ onClose }) {
                     leading-none
                     tracking-[-0.03em]
                     text-primary
-                    transition-transform
-                    duration-300
-                    group-hover:translate-x-2
                     sm:text-3xl
                     md:text-4xl
                     lg:text-5xl
@@ -290,26 +270,7 @@ export default function MenuOverlay({ onClose }) {
                   {menuItem.name}
                 </h2>
 
-                {/* Arrow */}
-                <span
-                  className="
-                    relative
-                    z-10
-                    ml-auto
-                    translate-x-2
-                    text-lg
-                    text-[var(--color-violet-muted)]
-                    opacity-0
-                    transition-all
-                    duration-300
-                    group-hover:translate-x-0
-                    group-hover:opacity-100
-                    sm:text-xl
-                    md:text-2xl
-                  "
-                >
-                  ↗
-                </span>
+
               </Link>
             </motion.div>
           ))}

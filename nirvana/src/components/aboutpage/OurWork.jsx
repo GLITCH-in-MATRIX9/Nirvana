@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { workItems } from "../../data/about/ourwork";
 
@@ -32,13 +33,11 @@ export default function OurWork() {
         bg-[var(--color-black)]
       "
     >
-
       {/* =====================================================
           BACKGROUND NOISE
       ===================================================== */}
 
       <div className="noise z-0 opacity-[0.06]" />
-
 
       {/* =====================================================
           DARK VIOLET ATMOSPHERE
@@ -66,13 +65,11 @@ export default function OurWork() {
         "
       />
 
-
       {/* =====================================================
           HEADING
       ===================================================== */}
 
       <div className="container relative z-10">
-
         <motion.div
           initial={{
             opacity: 0,
@@ -93,16 +90,12 @@ export default function OurWork() {
             ease,
           }}
         >
-
           {/* Label */}
-
           <span className="text-micro text-subtle">
             03 — Our Work
           </span>
 
-
           {/* Heading */}
-
           <h2
             className="
               mt-6
@@ -117,15 +110,12 @@ export default function OurWork() {
           >
             WORK FROM
             <br />
-
             <span className="text-subtle">
               NIRVANA.
             </span>
           </h2>
 
-
           {/* Description */}
-
           <p
             className="
               text-body
@@ -142,11 +132,8 @@ export default function OurWork() {
             A collection of ideas, experiments and visual
             worlds created by the people of Nirvana.
           </p>
-
         </motion.div>
-
       </div>
-
 
       {/* =====================================================
           DESKTOP — FOUR COLUMN MASONRY
@@ -166,7 +153,6 @@ export default function OurWork() {
           lg:block
         "
       >
-
         <div
           className="
             grid
@@ -176,7 +162,6 @@ export default function OurWork() {
             xl:gap-5
           "
         >
-
           {columns.map((column, columnIndex) => (
             <div
               key={columnIndex}
@@ -188,24 +173,18 @@ export default function OurWork() {
                 xl:gap-5
               "
             >
-
               {column.map((item, index) => (
                 <WorkImage
                   key={item.id}
                   item={item}
                   index={index}
                   columnIndex={columnIndex}
-                  desktop
                 />
               ))}
-
             </div>
           ))}
-
         </div>
-
       </div>
-
 
       {/* =====================================================
           MOBILE — PINTEREST STYLE MASONRY
@@ -225,7 +204,6 @@ export default function OurWork() {
           lg:hidden
         "
       >
-
         <div
           className="
             grid
@@ -236,7 +214,6 @@ export default function OurWork() {
             sm:gap-3
           "
         >
-
           {mobileColumns.map((column, columnIndex) => (
             <div
               key={columnIndex}
@@ -248,7 +225,6 @@ export default function OurWork() {
                 sm:gap-3
               "
             >
-
               {column.map((item, index) => (
                 <MobileWorkImage
                   key={item.id}
@@ -257,18 +233,13 @@ export default function OurWork() {
                   columnIndex={columnIndex}
                 />
               ))}
-
             </div>
           ))}
-
         </div>
-
       </div>
-
     </section>
   );
 }
-
 
 /* =========================================================
    DESKTOP WORK IMAGE
@@ -279,15 +250,42 @@ function WorkImage({
   index,
   columnIndex,
 }) {
+  const images = item.images || (item.image ? [item.image] : []);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const hasMultiple = images.length > 1;
+
+  /*
+   * Generous portrait rectangular heights that preserve artwork aspect ratios
+   */
   const heights = [
-    "h-[260px]",
-    "h-[360px]",
-    "h-[300px]",
-    "h-[420px]",
+    "h-[340px]",
+    "h-[430px]",
+    "h-[370px]",
+    "h-[470px]",
+  ];
+
+  // Column 1: Row 1 increased by 40px (380px, shorter than (1,2) at 430px), Row 2 reduced by 40px (390px)
+  const col1Heights = [
+    "h-[380px]",
+    "h-[390px]",
+    "h-[370px]",
+    "h-[470px]",
   ];
 
   const height =
-    heights[(index + columnIndex) % heights.length];
+    columnIndex === 0
+      ? col1Heights[index]
+      : heights[(index + columnIndex) % heights.length];
+
+  const prevImage = (e) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const nextImage = (e) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
 
   return (
     <motion.div
@@ -307,14 +305,12 @@ function WorkImage({
       }}
       transition={{
         duration: 0.8,
-        delay:
-          columnIndex * 0.08 +
-          index * 0.05,
+        delay: columnIndex * 0.08 + index * 0.05,
         ease,
       }}
       whileHover={{
-        y: -8,
-        scale: 1.025,
+        y: -6,
+        scale: 1.015,
         transition: {
           duration: 0.45,
           ease,
@@ -332,19 +328,21 @@ function WorkImage({
         bg-[var(--color-surface)]
       `}
     >
-
-      {/* IMAGE */}
-
-      <img
-        src={item.image}
-        alt=""
+      {/* IMAGE WITH SOFT CROSSFADE */}
+      <motion.img
+        key={currentIndex}
+        src={images[currentIndex]}
+        alt={item.artist ? `${item.artist} artwork` : ""}
         draggable="false"
+        initial={{ opacity: 0.4 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
         className="
           h-full
           w-full
           object-cover
           grayscale-[15%]
-          transition-all
+          transition-transform
           duration-700
           ease-out
           group-hover:scale-105
@@ -352,9 +350,7 @@ function WorkImage({
         "
       />
 
-
       {/* DARK OVERLAY */}
-
       <div
         className="
           pointer-events-none
@@ -367,9 +363,7 @@ function WorkImage({
         "
       />
 
-
       {/* VIOLET ATMOSPHERE */}
-
       <div
         className="
           pointer-events-none
@@ -383,9 +377,207 @@ function WorkImage({
         "
       />
 
+      {/* =====================================================
+          TOP BAR: ARTIST INFO (HOVER REVEAL)
+          Clean, uncrowded, styled after TeamGrid labels
+      ===================================================== */}
+      {item.artist && (
+        <div
+          className="
+            absolute
+            inset-x-0
+            top-0
+            z-20
+            flex
+            items-center
+            justify-between
+            bg-gradient-to-b
+            from-black/75
+            via-black/35
+            to-transparent
+            p-3.5
+            pb-8
+            opacity-0
+            transition-opacity
+            duration-300
+            group-hover:opacity-100
+            sm:p-4
+            sm:pb-10
+          "
+        >
+          <div className="flex items-center gap-2">
+            <span
+              className="
+                font-display
+                text-[11px]
+                font-semibold
+                uppercase
+                tracking-[0.14em]
+                text-white
+                drop-shadow-md
+                sm:text-[12px]
+              "
+            >
+              {item.artist}
+            </span>
+            {item.branch && (
+              <span
+                className="
+                  text-[9px]
+                  font-mono
+                  uppercase
+                  tracking-[0.18em]
+                  text-white/60
+                "
+              >
+                • {item.branch}
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* =====================================================
+          BOTTOM BAR: CAROUSEL CONTROLS (HOVER REVEAL)
+      ===================================================== */}
+      {hasMultiple && (
+        <div
+          className="
+            absolute
+            inset-x-0
+            bottom-0
+            z-20
+            flex
+            items-center
+            justify-between
+            bg-gradient-to-t
+            from-black/75
+            via-black/30
+            to-transparent
+            p-3.5
+            pt-8
+            opacity-0
+            transition-opacity
+            duration-300
+            group-hover:opacity-100
+            sm:p-4
+            sm:pt-10
+          "
+        >
+          {/* Previous Button */}
+          <button
+            type="button"
+            onClick={prevImage}
+            aria-label="Previous artwork"
+            className="
+              flex
+              h-7
+              w-7
+              items-center
+              justify-center
+              rounded-full
+              border
+              border-white/40
+              bg-black/40
+              text-white
+              backdrop-blur-sm
+              transition
+              hover:bg-white
+              hover:text-black
+            "
+          >
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+
+          {/* Indicators */}
+          {images.length <= 4 ? (
+            <div className="flex items-center gap-1.5">
+              {images.map((_, dotIndex) => (
+                <button
+                  key={dotIndex}
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentIndex(dotIndex);
+                  }}
+                  aria-label={`Go to artwork ${dotIndex + 1}`}
+                  className={`
+                    transition-all
+                    duration-300
+                    ${currentIndex === dotIndex
+                      ? "h-1 w-4 rounded-full bg-white"
+                      : "h-1 w-1 rounded-full bg-white/40 hover:bg-white/70"
+                    }
+                  `}
+                />
+              ))}
+            </div>
+          ) : (
+            <div
+              className="
+                rounded-full
+                border
+                border-white/20
+                bg-black/50
+                px-2.5
+                py-0.5
+                text-[10px]
+                font-medium
+                tracking-wider
+                text-white/90
+                backdrop-blur-sm
+              "
+            >
+              {currentIndex + 1} / {images.length}
+            </div>
+          )}
+
+          {/* Next Button */}
+          <button
+            type="button"
+            onClick={nextImage}
+            aria-label="Next artwork"
+            className="
+              flex
+              h-7
+              w-7
+              items-center
+              justify-center
+              rounded-full
+              border
+              border-white/40
+              bg-black/40
+              text-white
+              backdrop-blur-sm
+              transition
+              hover:bg-white
+              hover:text-black
+            "
+          >
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+      )}
 
       {/* BORDER */}
-
       <div
         className="
           pointer-events-none
@@ -398,11 +590,9 @@ function WorkImage({
           group-hover:border-[var(--color-border-strong)]
         "
       />
-
     </motion.div>
   );
 }
-
 
 /* =========================================================
    MOBILE PINTEREST IMAGE
@@ -413,163 +603,283 @@ function MobileWorkImage({
   index,
   columnIndex,
 }) {
+  const images = item.images || (item.image ? [item.image] : []);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const hasMultiple = images.length > 1;
 
-  /*
-   * Different heights create the Pinterest-style
-   * uneven rhythm.
-   */
+  // Perfectly balanced alternating heights so Column 0 and Column 1 match total height
+  const col0Heights = [
+    "h-[280px]",
+    "h-[230px]",
+    "h-[290px]",
+    "h-[220px]",
+    "h-[270px]",
+    "h-[240px]",
+    "h-[280px]",
+    "h-[230px]",
+  ];
 
-  const heights = [
+  const col1Heights = [
+    "h-[230px]",
+    "h-[280px]",
     "h-[220px]",
     "h-[290px]",
-    "h-[250px]",
-    "h-[320px]",
-    "h-[235px]",
-    "h-[300px]",
+    "h-[240px]",
+    "h-[270px]",
+    "h-[230px]",
+    "h-[280px]",
   ];
 
   const height =
-    heights[
-      (index * 2 + columnIndex) %
-        heights.length
-    ];
+    columnIndex === 0
+      ? col0Heights[index % col0Heights.length]
+      : col1Heights[index % col1Heights.length];
 
+  const prevImage = (e) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const nextImage = (e) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
 
   return (
     <motion.div
       initial={{
         opacity: 0,
-        y: 35,
-        scale: 0.97,
+        y: 20,
       }}
       whileInView={{
         opacity: 1,
         y: 0,
-        scale: 1,
       }}
       viewport={{
         once: true,
-        amount: 0.08,
+        margin: "120px 0px",
       }}
       transition={{
-        duration: 0.7,
-        delay:
-          columnIndex * 0.08 +
-          index * 0.06,
+        duration: 0.5,
+        delay: (index % 4) * 0.05,
         ease,
       }}
-
-      /*
-       * No hover-dependent interaction on mobile.
-       * The visual movement happens as cards enter
-       * the viewport.
-       */
-
       className={`
         group
         relative
         ${height}
         w-full
         overflow-hidden
+        border
+        border-[var(--color-border)]
         bg-[var(--color-surface)]
       `}
     >
-
-      {/* =================================================
-          IMAGE
-      ================================================= */}
-
+      {/* IMAGE */}
       <motion.img
-        src={item.image}
-        alt=""
+        key={currentIndex}
+        src={images[currentIndex]}
+        alt={item.artist ? `${item.artist} artwork` : ""}
         draggable="false"
-        initial={{
-          scale: 1.08,
-        }}
-        whileInView={{
-          scale: 1,
-        }}
-        viewport={{
-          once: true,
-          amount: 0.08,
-        }}
-        transition={{
-          duration: 1,
-          delay:
-            columnIndex * 0.08 +
-            index * 0.06,
-          ease,
-        }}
+        initial={{ opacity: 0.6 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
         className="
           h-full
           w-full
           object-cover
-          grayscale-[8%]
-          transition-all
+          transition-transform
           duration-500
           ease-out
         "
       />
 
+      {/* MOBILE TOP ARTIST INFO */}
+      {item.artist && (
+        <div
+          className="
+            absolute
+            inset-x-0
+            top-0
+            z-20
+            flex
+            items-center
+            bg-gradient-to-b
+            from-black/80
+            via-black/40
+            to-transparent
+            p-2.5
+            pb-6
+            sm:p-3
+            sm:pb-8
+          "
+        >
+          <div className="flex items-center gap-1.5">
+            <span
+              className="
+                font-display
+                text-[10px]
+                font-semibold
+                uppercase
+                tracking-[0.14em]
+                text-white
+                drop-shadow-sm
+                sm:text-[11px]
+              "
+            >
+              {item.artist}
+            </span>
+            {item.branch && (
+              <span
+                className="
+                  text-[8.5px]
+                  font-mono
+                  uppercase
+                  tracking-[0.16em]
+                  text-white/60
+                "
+              >
+                • {item.branch}
+              </span>
+            )}
+          </div>
+        </div>
+      )}
 
-      {/* =================================================
-          SUBTLE DARK TREATMENT
-      ================================================= */}
+      {/* MOBILE BOTTOM CAROUSEL CONTROLS */}
+      {hasMultiple ? (
+        <div
+          className="
+            absolute
+            inset-x-0
+            bottom-0
+            z-20
+            flex
+            items-center
+            justify-between
+            bg-gradient-to-t
+            from-black/75
+            via-black/30
+            to-transparent
+            p-2.5
+            pt-6
+            sm:p-3
+            sm:pt-8
+          "
+        >
+          {/* Previous Button */}
+          <button
+            type="button"
+            onClick={prevImage}
+            aria-label="Previous artwork"
+            className="
+              flex
+              h-6
+              w-6
+              items-center
+              justify-center
+              rounded-full
+              border
+              border-white/30
+              bg-black/50
+              text-white
+              backdrop-blur-sm
+              active:bg-white
+              active:text-black
+            "
+          >
+            <svg
+              width="10"
+              height="10"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
 
-      <div
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          bg-black/10
-        "
-      />
+          {/* Indicators */}
+          {images.length <= 4 ? (
+            <div className="flex items-center gap-1">
+              {images.map((_, dotIndex) => (
+                <button
+                  key={dotIndex}
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentIndex(dotIndex);
+                  }}
+                  aria-label={`Go to artwork ${dotIndex + 1}`}
+                  className={`
+                    transition-all
+                    duration-300
+                    ${currentIndex === dotIndex
+                      ? "h-1 w-3 rounded-full bg-white"
+                      : "h-1 w-1 rounded-full bg-white/40"
+                    }
+                  `}
+                />
+              ))}
+            </div>
+          ) : (
+            <div
+              className="
+                rounded-full
+                border
+                border-white/20
+                bg-black/60
+                px-2
+                py-0.5
+                text-[9px]
+                font-medium
+                tracking-wider
+                text-white/90
+                backdrop-blur-sm
+              "
+            >
+              {currentIndex + 1} / {images.length}
+            </div>
+          )}
 
-
-      {/* =================================================
-          MOBILE VIOLET TINT
-      ================================================= */}
-
-      <motion.div
-        initial={{
-          opacity: 0,
-        }}
-        whileInView={{
-          opacity: 0.12,
-        }}
-        viewport={{
-          once: true,
-        }}
-        transition={{
-          duration: 0.8,
-        }}
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          bg-[radial-gradient(circle_at_50%_35%,rgba(56,32,68,0.35),transparent_65%)]
-        "
-      />
-
-
-      {/* =================================================
-          SMALL ACCENT
-      ================================================= */}
-
-      <div
-        className="
-          absolute
-          bottom-3
-          left-3
-          h-px
-          w-5
-          bg-white/40
-
-          sm:bottom-4
-          sm:left-4
-        "
-      />
-
+          {/* Next Button */}
+          <button
+            type="button"
+            onClick={nextImage}
+            aria-label="Next artwork"
+            className="
+              flex
+              h-6
+              w-6
+              items-center
+              justify-center
+              rounded-full
+              border
+              border-white/30
+              bg-black/50
+              text-white
+              backdrop-blur-sm
+              active:bg-white
+              active:text-black
+            "
+          >
+            <svg
+              width="10"
+              height="10"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+      ) : (
+        /* Subtle accent line for single image on mobile */
+        <div className="absolute bottom-3 left-3 h-px w-5 bg-white/40 sm:bottom-4 sm:left-4" />
+      )}
     </motion.div>
   );
 }
